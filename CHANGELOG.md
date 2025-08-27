@@ -334,3 +334,22 @@ L'application est maintenant **professionnelle** et **optimisée** :
 - **Scope Management**: Declared `let buckets: any[] = []` at function level
 - **Data Flow**: Used `bucketsData` for destructuring and assigned to `buckets` for function-wide access
 - **Error Prevention**: Eliminated ReferenceError that was preventing proper error handling and logging
+
+## [2025-01-27] - Course Page Hero Image Display
+
+### Enhanced
+- **Hero Section Layout**: Added course thumbnail image to the right side of the hero section
+- **Visual Balance**: Course image now displays alongside course information in the green gradient hero
+- **Responsive Design**: Image adapts to different screen sizes with proper grid layout
+
+### Added
+- **Course Thumbnail Display**: Large 256x256px image in the hero section with rounded corners and shadow
+- **Fallback Design**: Elegant placeholder when no thumbnail is available, using BookOpen icon
+- **Image Styling**: Rounded corners, shadow effects, and subtle border for professional appearance
+- **Overlay Effect**: Subtle gradient overlay on images for better text readability
+
+### Layout
+- **Grid Structure**: Changed from 2-column to 3-column layout (lg:grid-cols-3)
+- **Information Column**: Course details now span 2 columns (lg:col-span-2)
+- **Image Column**: Thumbnail image spans 1 column (lg:col-span-1) on the right
+- **Centered Alignment**: Image is centered within its column for optimal visual balance
