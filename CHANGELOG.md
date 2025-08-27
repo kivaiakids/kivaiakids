@@ -300,3 +300,37 @@ L'application est maintenant **professionnelle** et **optimisée** :
 - **Supabase Integration**: Full bucket validation and file upload to `course-thumbnails/` folder
 - **File Handling**: Random filename generation with proper extension preservation
 - **Toast Integration**: User feedback for all upload operations
+- **Debug Logging**: Comprehensive console logging for troubleshooting upload issues
+
+## [2025-01-27] - Enhanced Debug Logging for Image Upload
+
+### Added
+- **Detailed Console Logs**: Added comprehensive logging throughout the image upload process
+- **Bucket Validation Logs**: Detailed information about bucket existence and configuration
+- **File Information Logs**: File details, paths, and upload progress tracking
+- **Error Detail Logs**: Complete error information including message, code, details, and hints
+- **Upload Progress Logs**: Step-by-step logging of the entire upload workflow
+
+### Enhanced
+- **Debug Information**: Both CreateCourse and EditCourseModal now provide detailed debugging
+- **Error Tracking**: Better error identification with specific failure points
+- **Bucket Diagnostics**: Complete bucket configuration and availability information
+- **File Processing**: Detailed file path and naming information for troubleshooting
+
+### Technical
+- **Console Logging**: Added emoji-prefixed logs for easy identification in browser console
+- **Error Handling**: Enhanced error logging with full error object properties
+- **Process Tracking**: Complete workflow logging from file selection to final upload
+- **Debug Consistency**: Same logging approach across both upload functions
+
+## [2025-01-27] - Fixed JavaScript Scope Error in Image Upload
+
+### Fixed
+- **ReferenceError: buckets is not defined**: Fixed JavaScript scope issue where `buckets` variable was not accessible in catch/finally blocks
+- **Variable Declaration**: Moved `buckets` declaration to function scope level for proper access throughout the function
+- **Data Assignment**: Properly assigned `bucketsData` to the function-level `buckets` variable
+
+### Technical
+- **Scope Management**: Declared `let buckets: any[] = []` at function level
+- **Data Flow**: Used `bucketsData` for destructuring and assigned to `buckets` for function-wide access
+- **Error Prevention**: Eliminated ReferenceError that was preventing proper error handling and logging

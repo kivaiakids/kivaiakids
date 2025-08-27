@@ -117,46 +117,129 @@ const CreateCourse = () => {
   };
 
   const handleImageUpload = async (file: File) => {
-    if (!file) return;
+    if (!file) {
+      console.log('❌ Aucun fichier sélectionné');
+      return;
+    }
+
+    console.log('🚀 Début de l\'upload:', {
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type
+    });
 
     setUploadingImage(true);
+    let buckets: any[] = []; // Déclarer buckets au niveau de la fonction
+    
     try {
       const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random()}.${fileExt}`;
       const filePath = `course-thumbnails/${fileName}`;
+      
+      console.log('📁 Informations du fichier:', {
+        extension: fileExt,
+        fileName: fileName,
+        filePath: filePath
+      });
 
       // Check if bucket exists
-      const { data: buckets } = await supabase.storage.listBuckets();
-      const bucketExists = buckets?.some(bucket => bucket.name === 'course-files');
+      console.log('🔍 Vérification des buckets disponibles...');
+      console.log('🔧 Client Supabase configuré:', !!supabase);
+      console.log('🔧 URL Supabase:', supabase.supabaseUrl);
       
-      if (!bucketExists) {
-        toast({
-          variant: "destructive",
-          title: "Bucket manquant",
-          description: "Le bucket 'course-files' doit être créé dans Supabase Storage."
+      try {
+        const { data: bucketsData, error: bucketsError } = await supabase.storage.listBuckets();
+        
+        console.log('📊 Réponse complète de listBuckets:', { data: bucketsData, error: bucketsError });
+        
+        if (bucketsError) {
+          console.error('❌ Erreur lors de la récupération des buckets:', bucketsError);
+          throw bucketsError;
+        }
+        
+        buckets = bucketsData || []; // Assigner à la variable de niveau fonction
+        
+        console.log('📦 Buckets trouvés:', buckets);
+        console.log('📦 Type de buckets:', typeof buckets);
+        console.log('📦 Est-ce un array?', Array.isArray(buckets));
+        console.log('📦 Longueur:', buckets?.length);
+        
+        if (buckets && buckets.length > 0) {
+          console.log('📋 Détail de chaque bucket:');
+          buckets.forEach((bucket, index) => {
+            console.log(`  ${index + 1}. ID: "${bucket.id}", Name: "${bucket.name}", Public: ${bucket.public}`);
+          });
+        }
+        
+        const bucketExists = buckets?.some(bucket => {
+          console.log(`🔍 Vérification bucket: "${bucket.name}" === "course-files" ? ${bucket.name === 'course-files'}`);
+          return bucket.name === 'course-files';
         });
-        return;
+        
+        console.log('✅ Bucket course-files existe:', bucketExists);
+        
+        if (!bucketExists) {
+          console.error('❌ Bucket course-files non trouvé');
+          console.log('📋 Buckets disponibles:', buckets?.map(b => b.name));
+          console.log('📋 Recherche exacte:');
+          buckets?.forEach(bucket => {
+            console.log(`  - "${bucket.name}" (longueur: ${bucket.name.length})`);
+            console.log(`  - Comparaison avec "course-files" (longueur: ${'course-files'.length}): ${bucket.name === 'course-files'}`);
+          });
+          
+          toast({
+            variant: "destructive",
+            title: "Bucket manquant",
+            description: "Le bucket 'course-files' doit être créé dans Supabase Storage."
+          });
+          return;
+        }
+      } catch (error) {
+        console.error('💥 Erreur lors de la vérification des buckets:', error);
+        throw error;
       }
 
-      const { error: uploadError } = await supabase.storage
+      // Vérifier la configuration du bucket
+      console.log('🔧 Configuration du bucket course-files...');
+      const bucketConfig = buckets?.find(b => b.name === 'course-files');
+      console.log('📋 Détails du bucket:', bucketConfig);
+
+      console.log('📤 Tentative d\'upload vers:', filePath);
+      const { data: uploadData, error: uploadError } = await supabase.storage
         .from('course-files')
         .upload(filePath, file);
 
       if (uploadError) {
+        console.error('❌ Erreur lors de l\'upload:', uploadError);
         throw uploadError;
       }
 
+      console.log('✅ Upload réussi:', uploadData);
+
+      console.log('🔗 Génération de l\'URL publique...');
       const { data: { publicUrl } } = supabase.storage
         .from('course-files')
         .getPublicUrl(filePath);
+      
+      console.log('🌐 URL publique générée:', publicUrl);
 
       handleInputChange('thumbnail_url', publicUrl);
+      console.log('💾 FormData mis à jour avec la nouvelle URL');
+      
       toast({
         title: "Image uploadée !",
         description: "L'image a été uploadée avec succès."
       });
     } catch (error) {
-      console.error('Erreur upload image:', error);
+      console.error('💥 Erreur complète lors de l\'upload:', error);
+      console.error('📋 Détails de l\'erreur:', {
+        message: error.message,
+        code: error.code,
+        details: error.details,
+        hint: error.hint,
+        stack: error.stack
+      });
+      
       toast({
         variant: "destructive",
         title: "Erreur d'upload",
@@ -164,6 +247,7 @@ const CreateCourse = () => {
       });
     } finally {
       setUploadingImage(false);
+      console.log('🏁 Upload terminé (succès ou échec)');
     }
   };
 
