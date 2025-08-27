@@ -31,6 +31,7 @@ import {
   X
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Label } from '@/components/ui/label';
 
 interface Course {
   id: string;
@@ -608,10 +609,63 @@ const EditCourseModal = ({
   onSave: (course: Course) => void; 
 }) => {
   const [formData, setFormData] = useState<Course>(course);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave(formData);
+  };
+
+  const handleImageUpload = async (file: File) => {
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `course-thumbnails/${fileName}`;
+
+      // Check if bucket exists
+      const { data: buckets } = await supabase.storage.listBuckets();
+      const bucketExists = buckets?.some(bucket => bucket.name === 'course-files');
+      
+      if (!bucketExists) {
+        toast({
+          variant: "destructive",
+          title: "Bucket manquant",
+          description: "Le bucket 'course-files' doit être créé dans Supabase Storage."
+        });
+        return;
+      }
+
+      const { error: uploadError } = await supabase.storage
+        .from('course-files')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('course-files')
+        .getPublicUrl(filePath);
+
+      setFormData(prev => ({ ...prev, thumbnail_url: publicUrl }));
+      toast({
+        title: "Image uploadée !",
+        description: "L'image a été uploadée avec succès."
+      });
+    } catch (error) {
+      console.error('Erreur upload image:', error);
+      toast({
+        variant: "destructive",
+        title: "Erreur upload",
+        description: "Impossible d'uploader l'image. Veuillez réessayer."
+      });
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -710,13 +764,48 @@ const EditCourseModal = ({
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">URL Thumbnail</label>
-                <Input
-                  value={formData.thumbnail_url || ''}
-                  onChange={(e) => setFormData({ ...formData, thumbnail_url: e.target.value })}
-                  placeholder="https://..."
-                />
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Image de couverture</label>
+                <div className="space-y-4">
+                  {/* Upload d'image */}
+                  <div className="flex items-center space-x-4">
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) handleImageUpload(file);
+                      }}
+                      disabled={uploadingImage}
+                    />
+                    {uploadingImage && (
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-green-500"></div>
+                    )}
+                  </div>
+
+                  {/* Affichage de l'image actuelle */}
+                  {formData.thumbnail_url && (
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">Image actuelle</label>
+                      <div className="relative inline-block">
+                        <img
+                          src={formData.thumbnail_url}
+                          alt="Thumbnail"
+                          className="w-32 h-32 object-cover rounded-lg border"
+                        />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
+                          onClick={() => setFormData(prev => ({ ...prev, thumbnail_url: '' }))}
+                        >
+                          <X className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
                              <div className="md:col-span-2">

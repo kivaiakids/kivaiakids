@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { LogOut, User, BookOpen, Crown, Menu, X, Home, GraduationCap, LogIn } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,152 +13,144 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const { user, profile, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const isMobile = useIsMobile();
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const closeMenu = () => {
-    setMenuOpen(false);
-  };
+  const [open, setOpen] = useState(false);
 
   const handleNavigation = (path: string) => {
     navigate(path);
-    closeMenu();
+    setOpen(false);
   };
 
-  // Prevent scrolling when menu is open
+  // Prevent scrolling when drawer is open
   useEffect(() => {
-    if (menuOpen) {
+    if (open) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     };
-  }, [menuOpen]);
+  }, [open]);
+
+  // ESC key closes the drawer
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) { 
+      if (e.key === "Escape") setOpen(false); 
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-br from-green-400 via-emerald-500 to-teal-600 shadow-lg relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div 
-              className="flex items-center space-x-3 cursor-pointer"
+      <header className="sticky top-0 z-50 bg-[linear-gradient(180deg,rgba(7,65,40,0.85)_0%,rgba(6,78,59,0.80)_100%)] backdrop-blur-md border-b border-white/15 shadow-[0_2px_16px_rgba(0,0,0,0.15)]">
+        <div className="max-w-[1200px] mx-auto px-4 lg:px-6 h-16 lg:h-20 flex items-center justify-between">
+          {/* Logo (left) */}
+          <div 
+            className="flex items-center cursor-pointer"
+            onClick={() => navigate('/')}
+          >
+            <img 
+              src="/logoWithTitle_page-0001.png" 
+              alt="KivaïaKids" 
+              className="h-7 w-auto lg:h-10"
+            />
+            <span className="sr-only">KivaïaKids</span>
+          </div>
+
+          {/* Nav links (center) */}
+          <nav className="hidden md:flex gap-6 lg:gap-8">
+            <button
               onClick={() => navigate('/')}
-            >
-              <div className="bg-white p-2 rounded-xl shadow-md">
-                <BookOpen className="h-8 w-8 text-green-600" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-white">KivaïaKids</h1>
-                <p className="text-green-100 text-sm">Apprendre en s'amusant</p>
-              </div>
-            </div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6">
-              {/* Navigation Links */}
-              <div className="flex items-center space-x-6">
-                <button
-                  onClick={() => navigate('/')}
-                  className="text-white hover:text-green-200 transition-colors font-medium"
-                >
-                  Accueil
-                </button>
-                <button
-                  onClick={() => navigate('/courses')}
-                  className="text-white hover:text-green-200 transition-colors font-medium"
-                >
-                  Cours
-                </button>
-              </div>
-
-              {/* User Section */}
-              {user ? (
-                <div className="flex items-center space-x-4">
-                  <div 
-                    className="flex items-center space-x-2 text-white cursor-pointer hover:text-green-200 transition-colors"
-                    onClick={() => navigate('/profile')}
-                  >
-                    {isAdmin && (
-                      <Crown className="h-4 w-4 text-yellow-300" />
-                    )}
-                    <User className="h-4 w-4" />
-                    <span className="hidden sm:block text-sm">
-                      {profile?.first_name || 'Utilisateur'}
-                    </span>
-                  </div>
-                  
-                  {isAdmin && (
-                    <Button
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => navigate('/admin')}
-                      className="bg-white/20 text-white hover:bg-white/30 text-xs px-2 py-1"
-                    >
-                      Admin
-                    </Button>
-                  )}
-                  
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={signOut}
-                    className="bg-white/10 text-white border-white/30 hover:bg-white/20 text-xs px-2 py-1 h-7"
-                  >
-                    <LogOut className="h-3 w-3" />
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  onClick={() => navigate('/auth')}
-                  className="bg-white text-green-700 hover:bg-green-50 text-sm px-3 py-1"
-                >
-                  Se connecter
-                </Button>
+              className={cn(
+                "text-sm lg:text-base font-medium text-white/90 hover:text-white transition-colors",
+                location.pathname === '/' && "underline decoration-white/70 underline-offset-8"
               )}
-            </div>
+            >
+              Accueil
+            </button>
+            <button
+              onClick={() => navigate('/courses')}
+              className={cn(
+                "text-sm lg:text-base font-medium text-white/90 hover:text-white transition-colors",
+                location.pathname === '/courses' && "underline decoration-white/70 underline-offset-8"
+              )}
+            >
+              Cours
+            </button>
+          </nav>
+
+          {/* Actions (right) */}
+          <div className="flex items-center gap-3">
+            {user ? (
+              <>
+                {/* User name chip */}
+                <div className="hidden md:inline-flex items-center gap-2 rounded-md bg-white/10 hover:bg-white/15 text-white px-3 py-1.5 text-sm backdrop-blur transition-colors cursor-pointer"
+                     onClick={() => navigate('/profile')}>
+                  {isAdmin && (
+                    <Crown className="h-4 w-4 text-yellow-300" />
+                  )}
+                  <User className="h-4 w-4" />
+                  <span>{profile?.first_name || 'Utilisateur'}</span>
+                </div>
+                
+                {/* Admin button */}
+                {isAdmin && (
+                  <button
+                    onClick={() => navigate('/admin')}
+                    className="hidden md:inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white px-3 py-1.5 rounded-md text-sm transition-colors cursor-pointer"
+                  >
+                    <Crown className="h-4 w-4 text-yellow-300" />
+                    <span>Admin</span>
+                  </button>
+                )}
+                
+                {/* Logout icon button */}
+                <button
+                  onClick={signOut}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white/10 hover:bg-white/15 text-white transition-colors"
+                >
+                  <LogOut className="h-4 w-4" />
+                </button>
+              </>
+            ) : (
+              <Button
+                onClick={() => navigate('/auth')}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white/10 hover:bg-white/15 text-white transition-colors"
+              >
+                <User className="h-4 w-4" />
+              </Button>
+            )}
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden">
-              <Button
-                variant="ghost"
-                size="lg"
-                onClick={toggleMenu}
-                className="text-white hover:bg-white/10 p-3 transition-transform duration-200 active:scale-95"
-              >
-                {menuOpen ? (
-                  <X className="h-8 w-8 transition-transform duration-200 rotate-180" />
-                ) : (
-                  <Menu className="h-8 w-8 transition-transform duration-200" />
-                )}
-              </Button>
-            </div>
+            <button
+              className="inline-flex md:hidden h-10 w-10 items-center justify-center rounded-md text-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+              onClick={() => setOpen(true)}
+              aria-expanded={open}
+            >
+              <Menu className="h-6 w-6" />
+            </button>
           </div>
         </div>
 
         {/* Mobile Menu Overlay and Drawer */}
-        {menuOpen && (
+        {open && (
           <>
-            {/* Overlay */}
+            {/* Overlay - covers entire site with dark filter */}
             <div 
-              className="md:hidden fixed inset-0 bg-black/50 z-50 transition-opacity duration-300"
-              onClick={closeMenu}
+              className="md:hidden fixed inset-0 bg-black/60 z-[60] transition-opacity duration-300"
+              onClick={() => setOpen(false)}
             />
             
-            {/* Drawer */}
-            <div className={`md:hidden fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 ${
-              menuOpen ? 'translate-x-0' : 'translate-x-full'
-            }`}>
-              <div className="flex flex-col h-full">
+            {/* Drawer - right side, full screen height, white background */}
+            <div className="md:hidden fixed top-0 right-0 h-screen w-[88%] max-w-[360px] bg-white text-gray-800 shadow-2xl z-[70] transform transition-transform duration-300 translate-x-0 border-l border-gray-200">
+              <div className="flex flex-col h-screen bg-white">
                 {/* Header */}
-                <div className="bg-gradient-to-br from-green-400 via-emerald-500 to-teal-600 p-6">
+                <div className="bg-gradient-to-br from-green-400 via-emerald-500 to-teal-600 p-6 shadow-sm flex-shrink-0">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <div className="bg-white p-2 rounded-xl shadow-md">
@@ -168,101 +161,81 @@ const Layout = ({ children }: LayoutProps) => {
                         <p className="text-green-100 text-sm">Navigation</p>
                       </div>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={closeMenu}
-                      className="text-white hover:bg-white/10 p-2"
+                    <button
+                      onClick={() => setOpen(false)}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-md text-white hover:bg-white/10 p-2 transition-colors"
                     >
                       <X className="h-6 w-6" />
-                    </Button>
+                    </button>
                   </div>
                 </div>
 
-                {/* Menu Items */}
-                <div className="flex-1 px-6 py-6 space-y-4">
-                  <div 
-                    className="flex items-center space-x-4 p-4 rounded-xl hover:bg-green-50 cursor-pointer transition-all hover:scale-105 border border-transparent hover:border-green-200"
-                    onClick={() => handleNavigation('/')}
-                  >
-                    <div className="bg-gradient-to-br from-blue-400 to-sky-500 p-3 rounded-lg">
-                      <Home className="h-5 w-5 text-white" />
-                    </div>
-                    <span className="font-medium text-gray-800">Accueil</span>
-                  </div>
-                  
-                  <div 
-                    className="flex items-center space-x-4 p-4 rounded-xl hover:bg-green-50 cursor-pointer transition-all hover:scale-105 border border-transparent hover:border-green-200"
-                    onClick={() => handleNavigation('/courses')}
-                  >
-                    <div className="bg-gradient-to-br from-green-400 to-emerald-500 p-3 rounded-lg">
-                      <GraduationCap className="h-5 w-5 text-white" />
-                    </div>
-                    <span className="font-medium text-gray-800">Cours</span>
-                  </div>
-
-                  {user ? (
-                    <>
-                      <div className="border-t border-gray-200 pt-4 mt-6">
-                        <div 
-                          className="flex items-center space-x-4 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 cursor-pointer transition-all"
-                          onClick={() => handleNavigation('/profile')}
-                        >
-                          <div className="bg-gradient-to-br from-purple-400 to-violet-500 p-3 rounded-lg">
-                            <User className="h-5 w-5 text-white" />
-                          </div>
-                          <div>
-                            <p className="font-medium text-gray-800">
-                              {profile?.first_name || 'Utilisateur'}
-                            </p>
-                            {isAdmin && (
-                              <p className="text-sm text-yellow-600 flex items-center">
-                                <Crown className="h-3 w-3 mr-1" />
-                                Administrateur
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        
-                        {isAdmin && (
-                          <div 
-                            className="flex items-center space-x-4 p-4 rounded-xl hover:bg-yellow-50 cursor-pointer transition-all hover:scale-105 border border-transparent hover:border-yellow-200 mt-4"
-                            onClick={() => handleNavigation('/admin')}
-                          >
-                            <div className="bg-gradient-to-br from-yellow-400 to-orange-500 p-3 rounded-lg">
-                              <Crown className="h-5 w-5 text-white" />
-                            </div>
-                            <span className="font-medium text-gray-800">Administration</span>
-                          </div>
-                        )}
-                        
-                        <div 
-                          className="flex items-center space-x-4 p-4 rounded-xl hover:bg-red-50 cursor-pointer transition-all hover:scale-105 border border-transparent hover:border-red-200 mt-4"
-                          onClick={signOut}
-                        >
-                          <div className="bg-gradient-to-br from-red-400 to-pink-500 p-3 rounded-lg">
-                            <LogOut className="h-5 w-5 text-white" />
-                          </div>
-                          <span className="font-medium text-red-600">Se déconnecter</span>
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <div 
-                      className="flex items-center space-x-4 p-4 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 cursor-pointer transition-all hover:scale-105 border border-green-200 hover:border-green-300 mt-6"
-                      onClick={() => handleNavigation('/auth')}
+                {/* Menu Items - clean, large, tappable */}
+                <div className="flex-1 p-6 bg-white overflow-y-auto">
+                  <div className="flex flex-col gap-3">
+                    <button
+                      onClick={() => handleNavigation('/')}
+                      className="text-lg font-semibold px-4 py-4 rounded-lg hover:bg-green-50 text-left text-gray-800 transition-all duration-200 border border-gray-100 hover:border-green-300 hover:shadow-sm bg-white"
                     >
-                      <div className="bg-gradient-to-br from-green-400 to-emerald-500 p-3 rounded-lg">
-                        <LogIn className="h-5 w-5 text-white" />
-                      </div>
-                      <span className="font-medium text-green-700">Se connecter / S'inscrire</span>
-                    </div>
-                  )}
+                      Accueil
+                    </button>
+                    
+                    <button
+                      onClick={() => handleNavigation('/courses')}
+                      className="text-lg font-semibold px-4 py-4 rounded-lg hover:bg-green-50 text-left text-gray-800 transition-all duration-200 border border-gray-100 hover:border-green-300 hover:shadow-sm bg-white"
+                    >
+                      Cours
+                    </button>
+
+                    {user ? (
+                      <>
+                        <div className="border-t border-gray-200 pt-6 mt-6">
+                          <button
+                            onClick={() => handleNavigation('/profile')}
+                            className="w-full text-lg font-semibold px-4 py-4 rounded-lg hover:bg-green-50 text-left text-gray-800 transition-all duration-200 border border-gray-100 hover:border-green-300 hover:shadow-sm bg-white"
+                          >
+                            <div className="flex items-center space-x-3">
+                              <div className="bg-gradient-to-br from-purple-400 to-violet-500 p-2 rounded-lg">
+                                <User className="h-5 w-5 text-white" />
+                              </div>
+                              <span>{profile?.first_name || 'Utilisateur'}</span>
+                              {isAdmin && (
+                                <Crown className="h-4 w-4 text-yellow-600 ml-2" />
+                              )}
+                            </div>
+                          </button>
+                          
+                          {isAdmin && (
+                            <button
+                              onClick={() => handleNavigation('/admin')}
+                              className="w-full text-lg font-semibold px-4 py-4 rounded-lg hover:bg-green-50 text-left text-gray-800 mt-3 transition-all duration-200 border border-gray-100 hover:border-green-300 hover:shadow-sm bg-white"
+                            >
+                              Administration
+                            </button>
+                          )}
+                          
+                          <button
+                            onClick={signOut}
+                            className="w-full text-lg font-semibold px-4 py-4 rounded-lg hover:bg-red-50 text-left text-red-600 mt-3 transition-all duration-200 border border-gray-100 hover:border-red-300 hover:shadow-sm bg-white"
+                          >
+                            Se déconnecter
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <button
+                        onClick={() => handleNavigation('/auth')}
+                        className="w-full text-lg font-semibold px-4 py-4 rounded-lg hover:bg-green-50 text-left text-gray-800 mt-6 transition-all duration-200 border border-gray-100 hover:border-green-300 hover:shadow-sm bg-white"
+                      >
+                        Se connecter / S'inscrire
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                {/* Footer */}
-                <div className="p-6 border-t border-gray-200">
-                  <p className="text-sm text-gray-500 text-center">
+                {/* Footer - always at bottom */}
+                <div className="p-6 border-t border-gray-200 bg-gray-50 flex-shrink-0">
+                  <p className="text-sm text-gray-600 text-center font-medium">
                     © 2025 KivaïaKids
                   </p>
                 </div>
@@ -273,13 +246,11 @@ const Layout = ({ children }: LayoutProps) => {
       </header>
 
       {/* Main content */}
-      <main>{children}</main>
+      <main className="pt-0">{children}</main>
 
       {/* Footer */}
       <footer className="bg-muted mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-          
           <div className="border-t border-gray-200 pt-6">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <div className="text-muted-foreground">

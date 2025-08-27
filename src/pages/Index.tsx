@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import Layout from '@/components/Layout';
+import Hero from '@/components/Hero';
 import CourseModal from '@/components/ui/course-modal';
 import { 
   BookOpen, 
@@ -19,7 +20,11 @@ import {
   Globe,
   Palette,
   Music,
-  Computer
+  Computer,
+  Crown,
+  Check,
+  Shield,
+  Zap
 } from 'lucide-react';
 
 const categoryIcons = {
@@ -87,58 +92,11 @@ const Index = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-green-400 via-emerald-500 to-teal-600 py-16 relative overflow-hidden">
-        {/* Background decorations */}
-        <div className="absolute inset-0">
-          <div className="absolute top-10 left-10 w-20 h-20 bg-yellow-200 rounded-full opacity-30 animate-float"></div>
-          <div className="absolute top-20 right-20 w-16 h-16 bg-pink-200 rounded-full opacity-40 animate-float" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute bottom-20 left-20 w-12 h-12 bg-blue-200 rounded-full opacity-30 animate-float" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute bottom-10 right-10 w-24 h-24 bg-purple-200 rounded-full opacity-25 animate-float" style={{ animationDelay: '0.5s' }}></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-bounce-soft drop-shadow-lg">
-              Bienvenue sur KivaïaKids ! 🎉
-            </h1>
-            <p className="text-xl text-green-100 mb-8 max-w-3xl mx-auto drop-shadow-md">
-              Une plateforme éducative simple et efficace pour apprendre les langues.
-              Découvre des cours dans toutes les matières !
-            </p>
-            
-            {!user ? (
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
-                <Button
-                  size="lg"
-                  onClick={() => navigate('/auth')}
-                  className="bg-white text-green-700 hover:bg-green-50 font-semibold px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                >
-                  <Users className="mr-2 h-5 w-5" />
-                  Rejoindre maintenant
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  onClick={() => navigate('/courses')}
-                  className="bg-white/20 text-white border-white/40 hover:bg-white/30 backdrop-blur-sm px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                >
-                  <BookOpen className="mr-2 h-5 w-5" />
-                  Voir les cours
-                </Button>
-              </div>
-            ) : (
-              <Button
-                size="lg"
-                onClick={() => navigate('/courses')}
-                className="bg-white text-green-700 hover:bg-green-50 font-semibold px-8 py-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-              >
-                <Play className="mr-2 h-5 w-5" />
-                Continuer l'apprentissage
-              </Button>
-            )}
-          </div>
-        </div>
-      </section>
+      <Hero 
+        title="Bienvenue sur KivaïaKids ! 🎉"
+        subtitle="Une plateforme éducative simple et efficace pour apprendre les langues. Découvre des cours dans toutes les matières !"
+        ctaLabel="Rejoindre maintenant"
+      />
 
       {/* Features Section */}
       <section className="py-16 bg-gradient-to-b from-emerald-50 to-teal-50">
@@ -282,7 +240,7 @@ const Index = () => {
           )}
 
           {courses.length > 0 && (
-            <div className="text-center mt-8">
+            <div className="text-center mt-8 space-y-4">
               <Button
                 onClick={() => navigate('/courses')}
                 size="lg"
@@ -292,6 +250,167 @@ const Index = () => {
               </Button>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Section Premium Attractive */}
+      <section className="py-20 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute inset-0">
+          <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-yellow-200 to-orange-300 rounded-full opacity-20 animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-40 h-40 bg-gradient-to-br from-red-200 to-pink-300 rounded-full opacity-20 animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-br from-orange-200 to-yellow-300 rounded-full opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full mb-8 shadow-2xl">
+              <Crown className="h-12 w-12 text-white" />
+            </div>
+            
+            <h2 className="text-4xl md:text-5xl font-bold text-orange-800 mb-6">
+              Débloque tout le contenu Premium ! 🚀
+            </h2>
+            
+            <p className="text-xl text-orange-600 max-w-4xl mx-auto mb-8">
+              Accède à tous nos cours exclusifs, exercices avancés et support prioritaire pour accélérer ton apprentissage des langues
+            </p>
+
+            {/* Pricing Cards */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
+              {/* Plan Mensuel */}
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border-2 border-orange-200 hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                <div className="text-center mb-6">
+                  <Badge className="bg-orange-100 text-orange-700 border-orange-200 mb-4">
+                    <Clock className="h-3 w-3 mr-1" />
+                    Mensuel
+                  </Badge>
+                  <div className="text-4xl font-bold text-orange-800 mb-2">
+                    9,90€
+                  </div>
+                  <div className="text-orange-600">par mois</div>
+                </div>
+                
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-center space-x-3">
+                    <Check className="h-5 w-5 text-green-600" />
+                    <span className="text-gray-700">Accès à tous les cours premium</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <Check className="h-5 w-5 text-green-600" />
+                    <span className="text-gray-700">Support prioritaire</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <Check className="h-5 w-5 text-green-600" />
+                    <span className="text-gray-700">Contenu exclusif</span>
+                  </li>
+                </ul>
+                
+                <Button
+                  onClick={() => navigate('/premium')}
+                  className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <Star className="h-5 w-5 mr-2" />
+                  Commencer maintenant
+                </Button>
+              </div>
+
+              {/* Plan Annuel - Featured */}
+              <div className="bg-gradient-to-br from-yellow-400 to-orange-500 text-white rounded-2xl p-8 shadow-2xl border-0 relative hover:shadow-3xl transition-all duration-300 hover:scale-105">
+                {/* Popular Badge */}
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <Badge className="bg-white text-orange-600 font-bold px-4 py-2 border-0 shadow-lg">
+                    <Star className="h-3 w-3 mr-1" />
+                    POPULAIRE
+                  </Badge>
+                </div>
+                
+                <div className="text-center mb-6 pt-4">
+                  <div className="text-4xl font-bold text-white mb-2">
+                    99€
+                  </div>
+                  <div className="text-yellow-100 text-lg">par an</div>
+                  <div className="bg-white/20 rounded-lg p-3 mt-4">
+                    <p className="text-yellow-100 text-sm font-medium">
+                      Économisez 19,80€ par an !
+                    </p>
+                  </div>
+                </div>
+                
+                <ul className="space-y-3 mb-8">
+                  <li className="flex items-center space-x-3">
+                    <Check className="h-5 w-5 text-yellow-200" />
+                    <span className="text-white">Tout du plan mensuel</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <Check className="h-5 w-5 text-yellow-200" />
+                    <span className="text-white">2 mois gratuits</span>
+                  </li>
+                  <li className="flex items-center space-x-3">
+                    <Check className="h-5 w-5 text-yellow-200" />
+                    <span className="text-white">Support VIP</span>
+                  </li>
+                </ul>
+                
+                <Button
+                  onClick={() => navigate('/premium')}
+                  className="w-full bg-white text-orange-600 hover:bg-gray-100 font-bold py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <Crown className="h-5 w-5 mr-2" />
+                  Choisir l'offre annuelle
+                </Button>
+              </div>
+            </div>
+
+            {/* Trust Indicators */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
+              <div className="text-center">
+                <div className="bg-white/60 backdrop-blur-sm rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <Shield className="h-8 w-8 text-orange-600" />
+                </div>
+                <h4 className="font-semibold text-orange-800 mb-2">Paiement sécurisé</h4>
+                <p className="text-orange-600 text-sm">
+                  Stripe garantit la sécurité
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white/60 backdrop-blur-sm rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <Users className="h-8 w-8 text-orange-600" />
+                </div>
+                <h4 className="font-semibold text-orange-800 mb-2">Support dédié</h4>
+                <p className="text-orange-600 text-sm">
+                  Une équipe à l'écoute
+                </p>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white/60 backdrop-blur-sm rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                  <Zap className="h-8 w-8 text-orange-600" />
+                </div>
+                <h4 className="font-semibold text-orange-800 mb-2">Contenu frais</h4>
+                <p className="text-orange-600 text-sm">
+                  Nouveaux cours régulièrement
+                </p>
+              </div>
+            </div>
+
+            {/* CTA Final */}
+            <div className="mt-12">
+              <Button
+                onClick={() => navigate('/premium')}
+                size="lg"
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-bold px-12 py-6 text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105"
+              >
+                <Crown className="h-6 w-6 mr-3" />
+                Débloquer Premium maintenant !
+              </Button>
+              
+              <p className="text-orange-600 mt-4 text-sm">
+                Rejoins des milliers d'apprenants qui ont déjà fait le choix du Premium
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 

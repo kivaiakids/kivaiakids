@@ -15,6 +15,7 @@ import ManageUsers from "./pages/ManageUsers";
 import ManageCourses from "./pages/ManageCourses";
 import UserProfile from "./pages/UserProfile";
 import Terms from "./pages/Terms";
+import Premium from "./pages/Premium";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/admin/manage-courses" element={<ManageCourses />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/terms" element={<Terms />} />
+            <Route path="/premium" element={<Premium />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
