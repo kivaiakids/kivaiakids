@@ -81,7 +81,10 @@ const Layout = ({ children }: LayoutProps) => {
               {/* User Section */}
               {user ? (
                 <div className="flex items-center space-x-4">
-                  <div className="flex items-center space-x-2 text-white">
+                  <div 
+                    className="flex items-center space-x-2 text-white cursor-pointer hover:text-green-200 transition-colors"
+                    onClick={() => navigate('/profile')}
+                  >
                     {isAdmin && (
                       <Crown className="h-4 w-4 text-yellow-300" />
                     )}
@@ -201,7 +204,10 @@ const Layout = ({ children }: LayoutProps) => {
                   {user ? (
                     <>
                       <div className="border-t border-gray-200 pt-4 mt-6">
-                        <div className="flex items-center space-x-4 p-4 rounded-xl bg-gray-50">
+                        <div 
+                          className="flex items-center space-x-4 p-4 rounded-xl bg-gray-50 hover:bg-gray-100 cursor-pointer transition-all"
+                          onClick={() => handleNavigation('/profile')}
+                        >
                           <div className="bg-gradient-to-br from-purple-400 to-violet-500 p-3 rounded-lg">
                             <User className="h-5 w-5 text-white" />
                           </div>
@@ -272,8 +278,23 @@ const Layout = ({ children }: LayoutProps) => {
       {/* Footer */}
       <footer className="bg-muted mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center text-muted-foreground">
-            <p>&copy; 2025 KivaïaKids. Une plateforme éducative sécurisée pour les children.</p>
+
+          
+          <div className="border-t border-gray-200 pt-6">
+            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+              <div className="text-muted-foreground">
+                <p>&copy; 2025 KivaïaKids. Apprendre les langues facilement.</p>
+              </div>
+              
+              <div className="flex space-x-6">
+                <button
+                  onClick={() => navigate('/terms')}
+                  className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
+                >
+                  Conditions d'utilisation
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </footer>

@@ -123,47 +123,7 @@ const ManageUsers = () => {
     setFilteredUsers(filtered);
   };
 
-  const toggleUserRole = async (userId: string, currentRole: string) => {
-    // Empêcher qu'un utilisateur change son propre rôle
-    if (userId === user?.id) {
-      toast({
-        variant: "destructive",
-        title: "Action non autorisée",
-        description: "Vous ne pouvez pas modifier votre propre rôle."
-      });
-      return;
-    }
 
-    try {
-      const newRole = currentRole === 'admin' ? 'student' : 'admin';
-      
-      const { error } = await supabase
-        .from('profiles')
-        .update({ role: newRole })
-        .eq('id', userId);
-
-      if (error) throw error;
-
-      // Update local state
-      setUsers(prevUsers => 
-        prevUsers.map(user => 
-          user.id === userId ? { ...user, role: newRole as 'admin' | 'student' } : user
-        )
-      );
-
-      toast({
-        title: "Rôle mis à jour",
-        description: `L'utilisateur est maintenant ${newRole === 'admin' ? 'administrateur' : 'étudiant'}.`
-      });
-    } catch (error) {
-      console.error('Erreur lors de la mise à jour du rôle:', error);
-      toast({
-        variant: "destructive",
-        title: "Erreur",
-        description: "Impossible de mettre à jour le rôle."
-      });
-    }
-  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('fr-FR', {
@@ -202,11 +162,11 @@ const ManageUsers = () => {
             
             <div className="flex items-center space-x-3 mb-4">
               <Users className="h-8 w-8 text-blue-600" />
-              <h1 className="text-3xl font-bold text-gray-800">Gestion des utilisateurs</h1>
+              <h1 className="text-3xl font-bold text-gray-800">Liste des utilisateurs</h1>
             </div>
             
             <p className="text-gray-600">
-              Gérez les comptes utilisateurs, leurs rôles et accès à la plateforme
+              Consultez la liste des utilisateurs inscrits sur la plateforme
             </p>
           </div>
 
@@ -357,33 +317,11 @@ const ManageUsers = () => {
 
                       {/* Actions */}
                       <div className="flex items-center space-x-2">
-                        {userProfile.id === user?.id ? (
+                        {userProfile.id === user?.id && (
                           <Badge variant="outline" className="border-gray-300 text-gray-500">
                             <User className="h-3 w-3 mr-1" />
                             Vous
                           </Badge>
-                        ) : (
-                          <Button
-                            variant={userProfile.role === 'admin' ? 'outline' : 'default'}
-                            size="sm"
-                            onClick={() => toggleUserRole(userProfile.id, userProfile.role)}
-                            className={userProfile.role === 'admin' 
-                              ? 'border-red-300 text-red-700 hover:bg-red-50' 
-                              : 'bg-blue-600 hover:bg-blue-700'
-                            }
-                          >
-                            {userProfile.role === 'admin' ? (
-                              <>
-                                <UserX className="h-4 w-4 mr-1" />
-                                Rétrograder
-                              </>
-                            ) : (
-                              <>
-                                <UserCheck className="h-4 w-4 mr-1" />
-                                Promouvoir Admin
-                              </>
-                            )}
-                          </Button>
                         )}
                       </div>
                     </div>

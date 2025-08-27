@@ -13,7 +13,6 @@ import {
   Star,
   Crown,
   Plus,
-  Settings,
   BarChart3,
   Shield,
   Activity
@@ -170,51 +169,37 @@ const Admin = () => {
                 <div className="bg-gradient-to-br from-blue-400 to-sky-500 p-3 rounded-lg w-12 h-12 flex items-center justify-center mb-3">
                   <Users className="h-6 w-6 text-white" />
                 </div>
-                <CardTitle className="text-lg text-blue-800">Gérer les utilisateurs</CardTitle>
+                <CardTitle className="text-lg text-blue-800">Liste des utilisateurs</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-blue-600 text-sm mb-4">
-                  Voir et gérer tous les utilisateurs
+                  Consulter la liste de tous les utilisateurs
                 </p>
                 <Button 
                   className="w-full bg-gradient-to-r from-blue-400 to-sky-500 hover:from-blue-500 hover:to-sky-600 text-white"
                   onClick={() => navigate('/admin/manage-users')}
                 >
-                  Gérer
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white/80 backdrop-blur-sm border-purple-200 hover:shadow-lg transition-all hover:scale-105 cursor-pointer">
-              <CardHeader>
-                <div className="bg-gradient-to-br from-purple-400 to-violet-500 p-3 rounded-lg w-12 h-12 flex items-center justify-center mb-3">
-                  <BarChart3 className="h-6 w-6 text-white" />
-                </div>
-                <CardTitle className="text-lg text-purple-800">Statistiques</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-purple-600 text-sm mb-4">
-                  Voir les statistiques détaillées
-                </p>
-                <Button className="w-full bg-gradient-to-r from-purple-400 to-violet-500 hover:from-purple-500 hover:to-violet-600 text-white">
                   Voir
                 </Button>
               </CardContent>
             </Card>
 
-            <Card className="bg-white/80 backdrop-blur-sm border-pink-200 hover:shadow-lg transition-all hover:scale-105 cursor-pointer">
+            <Card className="bg-white/80 backdrop-blur-sm border-purple-200 hover:shadow-lg transition-all hover:scale-105 cursor-pointer" onClick={() => navigate('/admin/manage-courses')}>
               <CardHeader>
-                <div className="bg-gradient-to-br from-pink-400 to-rose-500 p-3 rounded-lg w-12 h-12 flex items-center justify-center mb-3">
-                  <Settings className="h-6 w-6 text-white" />
+                <div className="bg-gradient-to-br from-purple-400 to-violet-500 p-3 rounded-lg w-12 h-12 flex items-center justify-center mb-3">
+                  <BookOpen className="h-6 w-6 text-white" />
                 </div>
-                <CardTitle className="text-lg text-pink-800">Paramètres</CardTitle>
+                <CardTitle className="text-lg text-purple-800">Gérer les cours</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-pink-600 text-sm mb-4">
-                  Configuration générale
+                <p className="text-purple-600 text-sm mb-4">
+                  Modifier et gérer tous les cours
                 </p>
-                <Button className="w-full bg-gradient-to-r from-pink-400 to-rose-500 hover:from-pink-500 hover:to-rose-600 text-white">
-                  Configurer
+                <Button 
+                  className="w-full bg-gradient-to-r from-purple-400 to-violet-500 hover:from-purple-500 hover:to-violet-600 text-white"
+                  onClick={() => navigate('/admin/manage-courses')}
+                >
+                  Gérer
                 </Button>
               </CardContent>
             </Card>

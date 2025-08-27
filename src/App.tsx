@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import ScrollToTop from "@/components/ScrollToTop";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Courses from "./pages/Courses";
@@ -11,6 +12,9 @@ import Course from "./pages/Course";
 import Admin from "./pages/Admin";
 import CreateCourse from "./pages/CreateCourse";
 import ManageUsers from "./pages/ManageUsers";
+import ManageCourses from "./pages/ManageCourses";
+import UserProfile from "./pages/UserProfile";
+import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +26,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
@@ -30,6 +35,9 @@ const App = () => (
             <Route path="/admin" element={<Admin />} />
             <Route path="/admin/create-course" element={<CreateCourse />} />
             <Route path="/admin/manage-users" element={<ManageUsers />} />
+            <Route path="/admin/manage-courses" element={<ManageCourses />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/terms" element={<Terms />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

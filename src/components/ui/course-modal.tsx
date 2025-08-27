@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Play, Calendar, Clock, ExternalLink, Video, Music, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Course {
   id: string;
@@ -42,12 +43,17 @@ const categoryNames: Record<string, string> = {
 
 const CourseModal: React.FC<CourseModalProps> = ({ course, isOpen, onClose }) => {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   if (!course) return null;
 
   const handleStartCourse = () => {
     onClose();
-    navigate(`/course/${course.id}`);
+    if (user) {
+      navigate(`/course/${course.id}`);
+    } else {
+      navigate('/auth');
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -117,7 +123,7 @@ const CourseModal: React.FC<CourseModalProps> = ({ course, isOpen, onClose }) =>
                 className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-3 text-lg"
               >
                 <Play className="h-5 w-5 mr-2" />
-                Commencer le cours
+                {user ? 'Commencer le cours' : 'S\'inscrire pour accéder au cours'}
               </Button>
             </div>
           </div>

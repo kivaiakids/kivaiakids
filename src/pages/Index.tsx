@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import Layout from '@/components/Layout';
+import CourseModal from '@/components/ui/course-modal';
 import { 
   BookOpen, 
   Play, 
@@ -48,6 +49,8 @@ const Index = () => {
   const navigate = useNavigate();
   const [courses, setCourses] = useState<any[]>([]);
   const [coursesLoading, setCoursesLoading] = useState(true);
+  const [selectedCourse, setSelectedCourse] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchCourses();
@@ -99,8 +102,8 @@ const Index = () => {
               Bienvenue sur KivaïaKids ! 🎉
             </h1>
             <p className="text-xl text-green-100 mb-8 max-w-3xl mx-auto drop-shadow-md">
-              Une plateforme éducative ludique et sécurisée où les enfants apprennent en s'amusant.
-              Découvre des cours interactifs dans toutes les matières !
+              Une plateforme éducative simple et efficace pour apprendre les langues.
+              Découvre des cours dans toutes les matières !
             </p>
             
             {!user ? (
@@ -169,11 +172,11 @@ const Index = () => {
                 <div className="bg-gradient-to-br from-pink-400 to-rose-500 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center shadow-lg">
                   <Trophy className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-xl text-pink-800">Apprentissage Ludique</CardTitle>
+                <CardTitle className="text-xl text-pink-800">Méthode Simple</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-pink-600">
-                  Transforme l'apprentissage en jeu avec des activités interactives et motivantes
+                  Une approche claire et directe pour progresser efficacement dans ton apprentissage
                 </p>
               </CardContent>
             </Card>
@@ -251,7 +254,10 @@ const Index = () => {
                         )}
                         <Button
                           size="sm"
-                          onClick={() => navigate(`/course/${course.id}`)}
+                          onClick={() => {
+                            setSelectedCourse(course);
+                            setIsModalOpen(true);
+                          }}
                           className="ml-auto"
                         >
                           <Play className="h-4 w-4 mr-1" />
@@ -288,6 +294,16 @@ const Index = () => {
           )}
         </div>
       </section>
+
+      {/* Course Modal */}
+      <CourseModal
+        course={selectedCourse}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedCourse(null);
+        }}
+      />
     </Layout>
   );
 };
