@@ -217,7 +217,27 @@ const Course = () => {
                 </div>
               </div>
 
-
+              {/* Course Image */}
+              <div className="lg:col-span-1 flex justify-center">
+                {course.thumbnail_url ? (
+                  <div className="relative">
+                    <img
+                      src={course.thumbnail_url}
+                      alt={course.title}
+                      className="w-64 h-64 object-cover rounded-2xl shadow-2xl border-4 border-white/20"
+                    />
+                    {/* Overlay pour améliorer la lisibilité */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
+                  </div>
+                ) : (
+                  <div className="w-64 h-64 bg-gradient-to-br from-white/20 to-white/10 rounded-2xl border-4 border-white/20 flex items-center justify-center">
+                    <div className="text-center text-white">
+                      <BookOpen className="h-16 w-16 mx-auto mb-2 opacity-60" />
+                      <span className="text-lg font-medium opacity-80">Image du cours</span>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
