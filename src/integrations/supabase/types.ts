@@ -63,6 +63,10 @@ export type Database = {
         Row: {
           audio_url: string | null
           category: Database["public"]["Enums"]["course_category"]
+          content: string | null
+  learning_objective_1: string | null
+  learning_objective_2: string | null
+  learning_objective_3: string | null
           created_at: string
           created_by: string | null
           description: string | null
@@ -79,6 +83,7 @@ export type Database = {
         Insert: {
           audio_url?: string | null
           category: Database["public"]["Enums"]["course_category"]
+          content?: string | null
           created_at?: string
           created_by?: string | null
           description?: string | null
@@ -95,6 +100,7 @@ export type Database = {
         Update: {
           audio_url?: string | null
           category?: Database["public"]["Enums"]["course_category"]
+          content?: string | null
           created_at?: string
           created_by?: string | null
           description?: string | null

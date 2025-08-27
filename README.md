@@ -1,8 +1,27 @@
-# Welcome to your Lovable project
+# KivaïaKids - Plateforme d'apprentissage des langues
 
-## Project info
+## Description
 
-**URL**: https://lovable.dev/projects/672c8027-ca79-4838-aaac-0b34d6451105
+KivaïaKids est une plateforme éducative moderne conçue pour aider les enfants à apprendre le français et d'autres langues de manière ludique et interactive. La plateforme propose des cours multimédias avec des contenus adaptés aux jeunes apprenants.
+
+## Fonctionnalités principales
+
+- **Cours interactifs** : Contenus multimédias (vidéos, podcasts, documents)
+- **Interface adaptée aux enfants** : Design coloré et intuitif
+- **Système de catégories** : Organisation claire des contenus éducatifs
+- **Gestion administrative** : Interface complète pour les administrateurs
+- **Système d'authentification** : Gestion des utilisateurs et des rôles
+- **Responsive design** : Compatible mobile et desktop
+
+## Technologies utilisées
+
+- **Frontend** : React + TypeScript + Vite
+- **UI Components** : shadcn/ui + Tailwind CSS
+- **Backend** : Supabase (Base de données, authentification, stockage)
+- **Routing** : React Router DOM
+- **Éditeur de texte** : TipTap (WYSIWYG)
+
+## Installation et développement
 
 ## How can I edit this code?
 
