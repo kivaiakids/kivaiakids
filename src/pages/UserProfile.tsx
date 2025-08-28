@@ -16,9 +16,12 @@ import {
   Crown,
   Edit,
   Save,
-  X
+  X,
+  Trash2
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import DeleteAccountModal from '@/components/ui/delete-account-modal';
+import { useStripePortal } from '@/hooks/use-stripe-portal';
 
 interface UserProfileData {
   id: string;
@@ -42,6 +45,10 @@ const UserProfile = () => {
     last_name: ''
   });
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  
+  // Hook pour le portail Stripe
+  const { openPortal, isLoading: isPortalLoading } = useStripePortal();
 
   useEffect(() => {
     if (loading) return;
@@ -205,9 +212,12 @@ const UserProfile = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Profile Card */}
-            <div className="lg:col-span-2">
+          {/* Main Content Grid - Desktop Optimized */}
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
+            {/* Left Column - Profile Info & Avatar */}
+            <div className="xl:col-span-4 space-y-6">
+              
+              {/* Profile Information Card */}
               <Card className="bg-white/80 backdrop-blur-sm border-blue-200">
                 <CardHeader>
                   <div className="flex items-center justify-between">
@@ -219,7 +229,7 @@ const UserProfile = () => {
                       <Button
                         variant="outline"
                         onClick={() => setIsEditing(true)}
-                        className="border-blue-300 text-blue-700 hover:bg-blue-50"
+                        className="border-blue-300 text-blue-700 hover:bg-blue-50 px-6"
                       >
                         <Edit className="h-4 w-4 mr-2" />
                         Modifier
@@ -229,32 +239,34 @@ const UserProfile = () => {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   {isEditing ? (
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <Label htmlFor="first_name">Prénom</Label>
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-1 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="first_name" className="text-sm font-medium">Prénom</Label>
                           <Input
                             id="first_name"
                             value={editData.first_name}
                             onChange={(e) => setEditData({ ...editData, first_name: e.target.value })}
                             placeholder="Votre prénom"
+                            className="h-11"
                           />
                         </div>
-                        <div>
-                          <Label htmlFor="last_name">Nom</Label>
+                        <div className="space-y-2">
+                          <Label htmlFor="last_name" className="text-sm font-medium">Nom</Label>
                           <Input
                             id="last_name"
                             value={editData.last_name}
                             onChange={(e) => setEditData({ ...editData, last_name: e.target.value })}
                             placeholder="Votre nom"
+                            className="h-11"
                           />
                         </div>
                       </div>
                       
-                      <div className="flex space-x-2">
+                      <div className="flex space-x-3 pt-2">
                         <Button
                           onClick={handleSaveProfile}
-                          className="bg-blue-600 hover:bg-blue-700"
+                          className="bg-blue-600 hover:bg-blue-700 px-6 py-2"
                         >
                           <Save className="h-4 w-4 mr-2" />
                           Sauvegarder
@@ -268,6 +280,7 @@ const UserProfile = () => {
                               last_name: profileData?.last_name || ''
                             });
                           }}
+                          className="px-6 py-2"
                         >
                           <X className="h-4 w-4 mr-2" />
                           Annuler
@@ -276,29 +289,25 @@ const UserProfile = () => {
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <Label className="text-sm font-medium text-gray-500">Prénom</Label>
-                          <p className="text-gray-900">
-                            {profileData?.first_name || 'Non renseigné'}
-                          </p>
-                        </div>
-                        <div>
-                          <Label className="text-sm font-medium text-gray-500">Nom</Label>
-                          <p className="text-gray-900">
-                            {profileData?.last_name || 'Non renseigné'}
-                          </p>
-                        </div>
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium text-gray-500">Prénom</Label>
+                        <p className="text-gray-900 text-lg">
+                          {profileData?.first_name || 'Non renseigné'}
+                        </p>
                       </div>
-                      
-                      <div>
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium text-gray-500">Nom</Label>
+                        <p className="text-gray-900 text-lg">
+                          {profileData?.last_name || 'Non renseigné'}
+                        </p>
+                      </div>
+                      <div className="space-y-2">
                         <Label className="text-sm font-medium text-gray-500">Email</Label>
-                        <p className="text-gray-900">{profileData?.email}</p>
+                        <p className="text-gray-900 text-lg">{profileData?.email}</p>
                       </div>
-                      
-                      <div>
+                      <div className="space-y-2">
                         <Label className="text-sm font-medium text-gray-500">Date d'inscription</Label>
-                        <p className="text-gray-900">
+                        <p className="text-gray-900 text-lg">
                           {profileData?.created_at ? formatDate(profileData.created_at) : 'Non disponible'}
                         </p>
                       </div>
@@ -306,16 +315,14 @@ const UserProfile = () => {
                   )}
                 </CardContent>
               </Card>
-            </div>
 
-            {/* Sidebar */}
-            <div className="space-y-6">
-              {/* Avatar Card */}
+              {/* Avatar & Role Card */}
               <Card className="bg-white/80 backdrop-blur-sm border-blue-200">
-                <CardHeader>
+                <CardHeader className="text-center">
                   <CardTitle className="text-blue-800">Photo de profil</CardTitle>
                 </CardHeader>
-                <CardContent className="text-center space-y-4">
+                <CardContent className="space-y-6">
+                  {/* Avatar Display */}
                   <div className="relative inline-block">
                     <div className="w-32 h-32 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white text-4xl font-semibold mx-auto">
                       {profileData?.avatar_url ? (
@@ -338,95 +345,254 @@ const UserProfile = () => {
                     )}
                   </div>
 
+                  {/* Role Information */}
+                  <div className="text-center">
+                    {profileData?.role === 'admin' ? (
+                      <div className="flex items-center justify-center space-x-2">
+                        <Crown className="h-6 w-6 text-yellow-500" />
+                        <div>
+                          <p className="font-semibold text-yellow-600">Administrateur</p>
+                          <p className="text-sm text-gray-600">Accès complet à la plateforme</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-center space-x-2">
+                        <User className="h-6 w-6 text-blue-500" />
+                        <div>
+                          <p className="font-semibold text-blue-600">Étudiant</p>
+                          <p className="text-sm text-gray-600">Accès aux cours et ressources</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Avatar Selection */}
                   <div className="space-y-3">
-                    <p className="text-sm text-gray-600">Choisissez votre avatar :</p>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => handleAvatarSelect('1')}
-                        className={`w-16 h-16 rounded-full border-2 transition-all ${
-                          profileData?.avatar_url === '/avatars/avatar1.png' 
-                            ? 'border-blue-500 scale-110' 
-                            : 'border-gray-200 hover:border-blue-300'
-                        }`}
+                    <p className="text-sm text-gray-600 font-medium">Choisissez votre avatar :</p>
+                    <div className="grid grid-cols-2 gap-3">
+                      {[
+                        { id: '1', emoji: '😊', color: 'from-blue-400 to-indigo-500' },
+                        { id: '2', emoji: '🎨', color: 'from-green-400 to-emerald-500' },
+                        { id: '3', emoji: '⭐', color: 'from-purple-400 to-violet-500' },
+                        { id: '4', emoji: '🚀', color: 'from-orange-400 to-red-500' }
+                      ].map((avatar) => (
+                        <button
+                          key={avatar.id}
+                          onClick={() => handleAvatarSelect(avatar.id)}
+                          className={`w-16 h-16 rounded-full border-2 transition-all hover:scale-105 ${
+                            profileData?.avatar_url === `/avatars/avatar${avatar.id}.png` 
+                              ? 'border-blue-500 scale-110' 
+                              : 'border-gray-200 hover:border-blue-300'
+                          }`}
+                        >
+                          <div className={`w-full h-full bg-gradient-to-br ${avatar.color} rounded-full flex items-center justify-center text-white font-bold text-lg`}>
+                            {avatar.emoji}
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Right Column - Subscription & Actions */}
+            <div className="xl:col-span-8 space-y-6">
+
+
+
+
+              {/* Subscription Management Card */}
+              <Card className="bg-white/80 backdrop-blur-sm border-green-200">
+                <CardHeader>
+                  <CardTitle className="text-green-800">Gestion de l'abonnement</CardTitle>
+                  <CardDescription className="text-green-600">
+                    Gérez votre abonnement Premium et vos informations de facturation
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                    <h4 className="font-semibold text-green-800 mb-2 flex items-center gap-2">
+                      <span className="text-lg">💳</span>
+                      Gérer mon abonnement
+                    </h4>
+                    <p className="text-sm text-green-700 mb-3">
+                      Accédez à votre portail de facturation Stripe pour gérer votre abonnement, 
+                      modifier votre méthode de paiement ou annuler votre abonnement.
+                    </p>
+                    <Button
+                      onClick={openPortal}
+                      disabled={isPortalLoading}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    >
+                      {isPortalLoading ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                          Ouverture du portail...
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-lg mr-2">🔗</span>
+                          Gérer mon abonnement
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Profile Information Card */}
+              <Card className="bg-white/80 backdrop-blur-sm border-blue-200">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <CardTitle className="text-blue-800">Informations personnelles</CardTitle>
+                      <CardDescription>Vos données de base et paramètres</CardDescription>
+                    </div>
+                    {!isEditing && (
+                      <Button
+                        variant="outline"
+                        onClick={() => setIsEditing(true)}
+                        className="border-blue-300 text-blue-700 hover:bg-blue-50 px-6"
                       >
-                        <div className="w-full h-full bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                          😊
+                        <Edit className="h-4 w-4 mr-2" />
+                        Modifier
+                      </Button>
+                    )}
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {isEditing ? (
+                    <div className="space-y-6">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <Label htmlFor="first_name" className="text-sm font-medium">Prénom</Label>
+                          <Input
+                            id="first_name"
+                            value={editData.first_name}
+                            onChange={(e) => setEditData({ ...editData, first_name: e.target.value })}
+                            placeholder="Votre prénom"
+                            className="h-11"
+                          />
                         </div>
-                      </button>
-                      <button
-                        onClick={() => handleAvatarSelect('2')}
-                        className={`w-16 h-16 rounded-full border-2 transition-all ${
-                          profileData?.avatar_url === '/avatars/avatar2.png' 
-                            ? 'border-blue-500 scale-110' 
-                            : 'border-gray-200 hover:border-blue-300'
-                        }`}
-                      >
-                        <div className="w-full h-full bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                          🎨
+                        <div className="space-y-2">
+                          <Label htmlFor="last_name" className="text-sm font-medium">Nom</Label>
+                          <Input
+                            id="last_name"
+                            value={editData.last_name}
+                            onChange={(e) => setEditData({ ...editData, last_name: e.target.value })}
+                            placeholder="Votre nom"
+                            className="h-11"
+                          />
                         </div>
-                      </button>
-                      <button
-                        onClick={() => handleAvatarSelect('3')}
-                        className={`w-16 h-16 rounded-full border-2 transition-all ${
-                          profileData?.avatar_url === '/avatars/avatar3.png' 
-                            ? 'border-blue-500 scale-110' 
-                            : 'border-gray-200 hover:border-blue-300'
-                        }`}
-                      >
-                        <div className="w-full h-full bg-gradient-to-br from-purple-400 to-violet-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                          ⭐
+                      </div>
+                      
+                      <div className="flex space-x-3 pt-2">
+                        <Button
+                          onClick={handleSaveProfile}
+                          className="bg-blue-600 hover:bg-blue-700 px-6 py-2"
+                        >
+                          <Save className="h-4 w-4 mr-2" />
+                          Sauvegarder
+                        </Button>
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            setIsEditing(false);
+                            setEditData({
+                              first_name: profileData?.first_name || '',
+                              last_name: profileData?.last_name || ''
+                            });
+                          }}
+                          className="px-6 py-2"
+                        >
+                          <X className="h-4 w-4 mr-2" />
+                          Annuler
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium text-gray-500">Prénom</Label>
+                        <p className="text-gray-900 text-lg">
+                          {profileData?.first_name || 'Non renseigné'}
+                        </p>
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium text-gray-500">Nom</Label>
+                        <p className="text-gray-900 text-lg">
+                          {profileData?.last_name || 'Non renseigné'}
+                        </p>
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium text-gray-500">Email</Label>
+                        <p className="text-gray-900 text-lg">{profileData?.email}</p>
+                      </div>
+                      <div className="space-y-2">
+                        <Label className="text-sm font-medium text-gray-500">Date d'inscription</Label>
+                        <p className="text-gray-900 text-lg">
+                          {profileData?.created_at ? formatDate(profileData.created_at) : 'Non disponible'}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Account Actions Card */}
+              <Card className="bg-white/80 backdrop-blur-sm border-orange-200">
+                <CardHeader>
+                  <CardTitle className="text-orange-800">Actions du compte</CardTitle>
+                  <CardDescription className="text-orange-600">
+                    Gestion avancée de votre compte
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  
+                  {/* Delete Account Section */}
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+                    <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                      <div className="flex-1 space-y-3">
+                        <h4 className="font-semibold text-red-800 text-lg flex items-center gap-2">
+                          <span className="text-xl">⚠️</span>
+                          Supprimer mon compte
+                        </h4>
+                        <p className="text-red-700 leading-relaxed">
+                          Cette action supprimera définitivement votre compte et toutes vos données. 
+                          Cette opération est irréversible et ne peut pas être annulée.
+                        </p>
+                        <div className="text-sm text-red-600 space-y-1">
+                          <p>• Toutes vos données seront perdues</p>
+                          <p>• Votre abonnement Premium sera annulé</p>
+                          <p>• Vous ne pourrez plus vous reconnecter</p>
                         </div>
-                      </button>
-                      <button
-                        onClick={() => handleAvatarSelect('4')}
-                        className={`w-16 h-16 rounded-full border-2 transition-all ${
-                          profileData?.avatar_url === '/avatars/avatar4.png' 
-                            ? 'border-blue-500 scale-110' 
-                            : 'border-gray-200 hover:border-blue-300'
-                        }`}
-                      >
-                        <div className="w-full h-full bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                          🚀
-                        </div>
-                      </button>
+                      </div>
+                      <div className="lg:flex-shrink-0">
+                        <Button
+                          variant="destructive"
+                          onClick={() => setShowDeleteModal(true)}
+                          className="w-full lg:w-auto lg:px-8 lg:py-3 lg:text-base font-semibold hover:bg-red-700 active:bg-red-800 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        >
+                          <Trash2 className="h-4 w-4 lg:h-5 lg:w-5 mr-2" />
+                          Supprimer mon compte
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Role Card */}
-              <Card className="bg-white/80 backdrop-blur-sm border-blue-200">
-                <CardHeader>
-                  <CardTitle className="text-blue-800">Rôle</CardTitle>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <div className="flex items-center justify-center space-x-2">
-                    {profileData?.role === 'admin' ? (
-                      <>
-                        <Crown className="h-8 w-8 text-yellow-500" />
-                        <div>
-                          <p className="text-lg font-semibold text-yellow-600">Administrateur</p>
-                          <p className="text-sm text-gray-600">Accès complet à la plateforme</p>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <User className="h-8 w-8 text-blue-500" />
-                        <div>
-                          <p className="text-lg font-semibold text-blue-600">Étudiant</p>
-                          <p className="text-sm text-gray-600">Accès aux cours et ressources</p>
-                        </div>
-                      </>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-
-
             </div>
           </div>
         </div>
       </div>
+
+      {/* Delete Account Modal */}
+      <DeleteAccountModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+      />
     </Layout>
   );
 };

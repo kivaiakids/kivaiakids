@@ -422,3 +422,79 @@ L'application est maintenant **professionnelle** et **optimisée** :
 - **Optimized Spacing**: Reduced padding and margins for more efficient use of space
 - **Enhanced Media Tags**: Smaller, more compact media badges with reduced icon sizes
 - **Hero Button Contrast**: Changed hero CTA button to white background with green text and accents for better contrast while maintaining green color palette
+
+## [2025-01-27] - Account Deletion System
+
+### Added
+- **Account Deletion Feature**: New system to allow users to delete their accounts
+- **Soft Delete Implementation**: Accounts are marked as inactive rather than physically deleted
+- **Database Migration**: Added `is_valid` column to profiles table with default value TRUE
+- **Security Functions**: SQL functions to prevent access to deleted accounts and prevent modifications
+- **Delete Account Modal**: Comprehensive confirmation dialog with warnings and text confirmation
+- **Profile Integration**: Delete account button added to user profile page in "Zone dangereuse" section
+- **Desktop Optimization**: Enhanced delete account button layout for desktop with horizontal alignment and improved visual hierarchy
+
+## [2025-01-27] - User Profile Page Desktop Optimization
+
+### Enhanced
+- **Profile Page Layout**: Complete redesign for optimal desktop experience
+- **Grid System**: Changed from `lg:grid-cols-3` to `xl:grid-cols-12` for better space utilization
+- **Column Organization**: Left column (4/12) for avatar and subscription, right column (8/12) for profile info and actions
+- **Card Reorganization**: Logical grouping of related functionality
+- **Delete Account Section**: Enhanced with detailed warnings and better desktop layout
+- **Responsive Design**: Improved spacing, typography, and button sizing for desktop
+
+### Improved
+- **Avatar Card**: Combined avatar display, role information, and selection in one optimized card
+- **Profile Information**: Moved to right column with better form layout and spacing
+- **Account Actions**: Consolidated dangerous actions in dedicated card with clear visual hierarchy
+- **Button Layouts**: Optimized button sizes and spacing for desktop interaction
+- **Visual Hierarchy**: Better separation between different functional areas
+- **Card Reorganization**: Moved profile information to left column above avatar selection
+- **Layout Optimization**: Profile info now appears first in left column for better user flow
+
+## [2025-01-27] - Stripe Customer Portal Integration
+
+### Added
+- **Stripe Customer Portal**: Complete integration for subscription management
+- **Edge Function**: Secure server-side endpoint `create-portal-link` for portal session creation
+- **Customer Management**: Automatic Stripe customer creation if missing
+- **Subscription Portal**: Direct access to Stripe billing portal for account management
+- **French UI**: All interface text in French as requested
+
+### Enhanced
+- **User Profile**: New subscription management section with portal access button
+- **Authentication**: Secure token-based portal access with proper user verification
+- **Error Handling**: Comprehensive error handling with French error messages
+- **Loading States**: Visual feedback during portal opening process
+
+### Technical Implementation
+- **Supabase Edge Function**: Server-side portal session creation with Stripe integration
+- **Custom Hook**: `useStripePortal` for frontend portal management
+- **Security**: JWT token verification and service role key usage
+- **Database Integration**: Automatic `stripe_customer_id` management in profiles table
+- **CORS Support**: Proper CORS headers for cross-origin requests
+
+### Security Features
+- **Server-side Only**: Stripe secret key never exposed to client
+- **Token Verification**: JWT authentication required for portal access
+- **Service Role**: Uses Supabase service role for secure database operations
+- **Input Validation**: Proper request validation and sanitization
+
+### Enhanced
+- **Authentication Security**: Enhanced login process to check account validity
+- **Account Validation**: Automatic logout and access prevention for deleted accounts
+- **User Experience**: Clear warnings and confirmation steps for account deletion
+
+### Technical Implementation
+- **Database Schema**: New `is_valid` boolean column with index for performance
+- **SQL Functions**: `soft_delete_user_profile()`, `can_user_login()`, and trigger functions
+- **Frontend Components**: `DeleteAccountModal` component with comprehensive UI
+- **Auth Context**: Enhanced authentication flow with account validity checks
+- **Profile Page**: New "Zone dangereuse" section with delete account functionality
+
+### Security Features
+- **Soft Delete**: Accounts are marked inactive but data remains for audit purposes
+- **Access Prevention**: Deleted accounts cannot log in or access the platform
+- **Modification Blocking**: Triggers prevent modification of deleted account data
+- **Confirmation Required**: Users must type "SUPPRIMER" to confirm deletion

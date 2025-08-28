@@ -48,6 +48,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 .eq('id', session.user.id)
                 .single();
               
+              // Vérifier si le compte est valide
+              if (profileData && !profileData.is_valid) {
+                // Compte supprimé, déconnecter l'utilisateur
+                toast({
+                  variant: "destructive",
+                  title: "Compte supprimé",
+                  description: "Votre compte a été supprimé. Vous ne pouvez plus vous connecter."
+                });
+                await supabase.auth.signOut();
+                setProfile(null);
+                setUser(null);
+                setSession(null);
+                return;
+              }
+              
               setProfile(profileData);
             } catch (error) {
               console.error('Error fetching profile:', error);
@@ -131,6 +146,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         });
         return { error };
       }
+
+      // Vérifier si le compte est valide après connexion
+      setTimeout(async () => {
+        try {
+          const { data: profileData } = await supabase
+            .from('profiles')
+            .select('is_valid')
+            .eq('id', (await supabase.auth.getUser()).data.user?.id)
+            .single();
+          
+          if (profileData && !profileData.is_valid) {
+            // Compte supprimé, déconnecter l'utilisateur
+            toast({
+              variant: "destructive",
+              title: "Compte supprimé",
+              description: "Votre compte a été supprimé. Vous ne pouvez plus vous connecter."
+            });
+            await supabase.auth.signOut();
+            return;
+          }
+        } catch (error) {
+          console.error('Error checking account validity:', error);
+        }
+      }, 1000);
 
       toast({
         title: "Connexion réussie !",
