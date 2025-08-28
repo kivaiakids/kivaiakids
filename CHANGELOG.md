@@ -453,6 +453,26 @@ L'application est maintenant **professionnelle** et **optimisée** :
 - **Card Reorganization**: Moved profile information to left column above avatar selection
 - **Layout Optimization**: Profile info now appears first in left column for better user flow
 
+## [2025-01-27] - Production Build Optimization & Apache Configuration
+
+### Enhanced
+- **Vite Configuration**: Optimized for production deployment at root domain
+- **Build Settings**: ES2020 target, CSS splitting enabled, sourcemaps disabled for production
+- **Asset Management**: Clean hashed assets under `/assets/` directory
+- **Base Path**: Configured for root domain hosting (`base: '/'`)
+
+### Added
+- **Apache Configuration**: Complete `.htaccess` file with SPA fallback for React Router
+- **Security Headers**: X-Frame-Options, XSS protection, content type sniffing protection
+- **Performance Optimization**: Gzip compression and intelligent caching for static assets
+- **SPA Fallback**: All routes fallback to `index.html` for client-side routing
+
+### Technical Improvements
+- **Build Output**: Clean `dist/` structure with hashed assets
+- **Asset Paths**: All assets reference `/assets/` without absolute URLs
+- **Production Ready**: No localhost references, optimized for Apache hosting
+- **Cache Strategy**: Static assets cached for 1 year, HTML always fresh
+
 ## [2025-01-27] - Stripe Customer Portal Integration
 
 ### Added
