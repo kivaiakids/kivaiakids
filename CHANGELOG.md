@@ -353,3 +353,72 @@ L'application est maintenant **professionnelle** et **optimisée** :
 - **Information Column**: Course details now span 2 columns (lg:col-span-2)
 - **Image Column**: Thumbnail image spans 1 column (lg:col-span-1) on the right
 - **Centered Alignment**: Image is centered within its column for optimal visual balance
+
+## [2025-01-27] - Premium Course Access Control & Subscription Management
+
+### Enhanced
+- **Premium Course Protection**: Courses marked as premium are now restricted to premium users only
+- **Access Control**: Non-premium users see preview but cannot access premium course content
+- **Subscription Integration**: Full integration with existing Stripe subscription system
+- **User Experience**: Clear messaging and CTAs for premium upgrade
+
+### Added
+- **Premium Badge Display**: Visual indicators on premium courses in all interfaces
+- **Access Control Logic**: Direct redirection to premium upgrade for restricted content
+- **Premium Status Tracking**: New column `is_premium` in profiles table for performance optimization
+
+### Security
+- **Course Access Validation**: Automatic verification of premium status before course access
+- **Subscription Status Check**: Real-time verification of active premium subscriptions
+- **RLS Policies**: Enhanced security with proper access control policies
+
+### Database
+- **New Migration**: Added `is_premium` column to profiles table
+- **Automatic Updates**: Trigger-based system to keep premium status synchronized
+- **Performance Optimization**: Direct column access instead of complex subscription queries
+- **Index Creation**: Optimized indexes for premium status queries
+
+### Technical
+- **Hook Optimization**: Enhanced `usePremium` hook with profile-based status checking
+- **Direct Navigation**: Simplified flow with direct redirection to premium page
+- **State Management**: Streamlined handling of premium status across all course components
+- **Error Handling**: Efficient error handling for premium access scenarios
+
+## [2025-01-27] - Modern Course Card Design System
+
+### Enhanced
+- **Visual Design**: Complete redesign of course cards with modern, professional appearance
+- **User Experience**: Improved readability, hover effects, and visual hierarchy
+- **Responsive Layout**: Optimized grid system (1/2/3 columns) for mobile/tablet/desktop
+- **Accessibility**: Enhanced focus states, semantic structure, and screen reader support
+
+### Added
+- **New CourseCard Component**: Modern, reusable card component with consistent design
+- **Accent Bar**: Thin green gradient bar at top for brand identity
+- **Premium Badge**: Crown icon with orange gradient, positioned top-right
+- **Media Tags**: Conditional display of video, audio, document, and image indicators
+- **Skeleton Loading**: Placeholder cards during data loading for better UX
+- **Hover Effects**: Subtle lift animation and image scaling on desktop
+
+### Design Features
+- **Container**: Rounded corners (rounded-2xl), subtle borders, soft shadows
+- **Thumbnails**: 16:9 aspect ratio with hover scaling (1.03x) and fallback icons
+- **Typography**: Strong hierarchy with line-clamp-2 for title and description
+- **Badges**: Category pills with color-coded backgrounds, premium badges with gradients
+- **Footer**: Duration display with clock icon, compact "Voir" CTA button
+
+### Technical Implementation
+- **Tailwind CSS**: Modern utility-first approach with custom color schemes
+- **Responsive Design**: Mobile-first with md: and xl: breakpoints
+- **Performance**: Lazy loading images, GPU-friendly transitions, optimized shadows
+- **Dark Mode Ready**: Prepared for future dark mode implementation
+- **Component Architecture**: Reusable CourseCard and CourseCardSkeleton components
+
+### Bug Fixes & Improvements
+- **Fixed Badge Import Error**: Resolved "Badge is not defined" error in Courses.tsx
+- **Removed Deprecated References**: Cleaned up unused categoryNames and categoryIcons objects
+- **Compact Card Design**: Reduced thumbnail height from h-48 to h-36 for more compact appearance
+- **Improved Image Fallback**: Enhanced fallback design with green gradient background and white icon
+- **Optimized Spacing**: Reduced padding and margins for more efficient use of space
+- **Enhanced Media Tags**: Smaller, more compact media badges with reduced icon sizes
+- **Hero Button Contrast**: Changed hero CTA button to white background with green text and accents for better contrast while maintaining green color palette

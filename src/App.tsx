@@ -16,6 +16,7 @@ import ManageCourses from "./pages/ManageCourses";
 import UserProfile from "./pages/UserProfile";
 import Terms from "./pages/Terms";
 import Premium from "./pages/Premium";
+import PurchaseSuccess from "./pages/PurchaseSuccess";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/premium" element={<Premium />} />
+            <Route path="/purchase-success" element={<PurchaseSuccess />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

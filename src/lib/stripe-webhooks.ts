@@ -113,6 +113,8 @@ const handleSubscriptionChange = async (subscription: StripeSubscription) => {
         console.error('Erreur lors de la mise à jour de l\'abonnement:', updateError);
       } else {
         console.log('Abonnement mis à jour avec succès:', subscription.id);
+        // Mettre à jour le statut premium dans profiles
+        await updateUserPremiumStatus(userId, subscription.status === 'active');
       }
     } else {
       // Créer un nouvel abonnement
@@ -132,6 +134,8 @@ const handleSubscriptionChange = async (subscription: StripeSubscription) => {
         console.error('Erreur lors de la création de l\'abonnement:', insertError);
       } else {
         console.log('Nouvel abonnement créé avec succès:', subscription.id);
+        // Mettre à jour le statut premium dans profiles
+        await updateUserPremiumStatus(userId, subscription.status === 'active');
       }
     }
   } catch (error) {
@@ -155,6 +159,16 @@ const handleSubscriptionCancellation = async (subscription: StripeSubscription) 
       console.error('Erreur lors de l\'annulation de l\'abonnement:', error);
     } else {
       console.log('Abonnement annulé avec succès:', subscription.id);
+      // Mettre à jour le statut premium dans profiles (désactiver)
+      const { data: customerData } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('stripe_customer_id', subscription.customer)
+        .single();
+      
+      if (customerData) {
+        await updateUserPremiumStatus(customerData.id, false);
+      }
     }
   } catch (error) {
     console.error('Erreur lors du traitement de l\'annulation:', error);
@@ -204,4 +218,25 @@ export const verifyStripeWebhook = (payload: string, signature: string, secret: 
   // Cette fonction devrait utiliser la bibliothèque Stripe pour vérifier la signature
   // Pour l'instant, on retourne true (à implémenter avec Stripe)
   return true;
+};
+
+// Fonction pour mettre à jour le statut premium d'un utilisateur
+const updateUserPremiumStatus = async (userId: string, isPremium: boolean) => {
+  try {
+    const { error } = await supabase
+      .from('profiles')
+      .update({
+        is_premium: isPremium,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', userId);
+
+    if (error) {
+      console.error('Erreur lors de la mise à jour du statut premium:', error);
+    } else {
+      console.log(`Statut premium mis à jour pour l'utilisateur ${userId}: ${isPremium}`);
+    }
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour du statut premium:', error);
+  }
 };

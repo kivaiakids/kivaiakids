@@ -36,32 +36,49 @@ export const usePremium = () => {
     try {
       setLoading(true);
       
-      const { data, error } = await supabase
-        .from('subscriptions')
-        .select('*')
-        .eq('user_id', user?.id)
-        .eq('status', 'active')
+      // Vérifier d'abord le statut premium dans profiles (plus rapide)
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('is_premium')
+        .eq('id', user?.id)
         .single();
 
-      if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
-        console.error('Erreur lors de la vérification du statut premium:', error);
+      if (profileError) {
+        console.error('Erreur lors de la récupération du profil:', profileError);
         setIsPremium(false);
         setSubscription(null);
         return;
       }
 
-      if (data) {
-        // Vérifier si l'abonnement n'est pas expiré
-        const now = new Date();
-        const periodEnd = new Date(data.current_period_end);
-        
-        if (periodEnd > now) {
-          setIsPremium(true);
-          setSubscription(data);
+      if (profileData?.is_premium) {
+        // L'utilisateur est premium, récupérer les détails de l'abonnement
+        const { data: subscriptionData, error: subscriptionError } = await supabase
+          .from('subscriptions')
+          .select('*')
+          .eq('user_id', user?.id)
+          .eq('status', 'active')
+          .single();
+
+        if (subscriptionError && subscriptionError.code !== 'PGRST116') {
+          console.error('Erreur lors de la récupération de l\'abonnement:', subscriptionError);
+        }
+
+        if (subscriptionData) {
+          // Vérifier si l'abonnement n'est pas expiré
+          const now = new Date();
+          const periodEnd = new Date(subscriptionData.current_period_end);
+          
+          if (periodEnd > now) {
+            setIsPremium(true);
+            setSubscription(subscriptionData);
+          } else {
+            // Abonnement expiré, le mettre à jour
+            await updateExpiredSubscription(subscriptionData.id);
+            setIsPremium(false);
+            setSubscription(null);
+          }
         } else {
-          // Abonnement expiré, le mettre à jour
-          await updateExpiredSubscription(data.id);
-          setIsPremium(false);
+          setIsPremium(true);
           setSubscription(null);
         }
       } else {

@@ -2,52 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import Layout from '@/components/Layout';
 import Hero from '@/components/Hero';
 import CourseModal from '@/components/ui/course-modal';
+import CourseCard from '@/components/ui/course-card';
+import CourseCardSkeleton from '@/components/ui/course-card-skeleton';
+import { Badge } from '@/components/ui/badge';
 import { 
   BookOpen, 
-  Play, 
-  Clock, 
   Users, 
   Trophy, 
-  Star,
-  Calculator,
-  Microscope,
-  Globe,
-  Palette,
-  Music,
-  Computer,
   Crown,
   Check,
   Shield,
-  Zap
+  Zap,
+  Clock,
+  Star
 } from 'lucide-react';
 
-const categoryIcons = {
-  mathematiques: Calculator,
-  sciences: Microscope,
-  langues: Globe,
-  histoire: BookOpen,
-  geographie: Globe,
-  arts: Palette,
-  sport: Trophy,
-  informatique: Computer
-};
 
-const categoryColors = {
-  mathematiques: 'bg-blue-100 text-blue-800',
-  sciences: 'bg-green-100 text-green-800',
-  langues: 'bg-purple-100 text-purple-800',
-  histoire: 'bg-orange-100 text-orange-800',
-  geographie: 'bg-teal-100 text-teal-800',
-  arts: 'bg-pink-100 text-pink-800',
-  sport: 'bg-red-100 text-red-800',
-  informatique: 'bg-indigo-100 text-indigo-800'
-};
 
 const Index = () => {
   const { user, loading } = useAuth();
@@ -169,63 +144,23 @@ const Index = () => {
           </div>
 
           {coursesLoading ? (
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(3)].map((_, index) => (
+                <CourseCardSkeleton key={index} />
+              ))}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {courses.map((course) => {
-                const IconComponent = categoryIcons[course.category as keyof typeof categoryIcons] || BookOpen;
-                const colorClass = categoryColors[course.category as keyof typeof categoryColors] || 'bg-gray-100 text-gray-800';
-                
-                return (
-                  <Card key={course.id} className="hover:shadow-lg transition-all hover:scale-105">
-                    <CardHeader>
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center space-x-2">
-                          <IconComponent className="h-5 w-5 text-primary" />
-                          <Badge className={colorClass}>
-                            {course.category}
-                          </Badge>
-                        </div>
-                        {course.is_premium && (
-                          <Badge variant="secondary">
-                            <Star className="h-3 w-3 mr-1" />
-                            Premium
-                          </Badge>
-                        )}
-                      </div>
-                      <CardTitle className="text-lg">{course.title}</CardTitle>
-                      {course.description && (
-                        <CardDescription className="line-clamp-2">
-                          {course.description}
-                        </CardDescription>
-                      )}
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-between text-sm text-muted-foreground">
-                        {course.duration_minutes && (
-                          <div className="flex items-center space-x-1">
-                            <Clock className="h-4 w-4" />
-                            <span>{course.duration_minutes} min</span>
-                          </div>
-                        )}
-                        <Button
-                          size="sm"
-                          onClick={() => {
-                            setSelectedCourse(course);
-                            setIsModalOpen(true);
-                          }}
-                          className="ml-auto"
-                        >
-                          <Play className="h-4 w-4 mr-1" />
-                          Voir
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+              {courses.map((course) => (
+                <CourseCard
+                  key={course.id}
+                  course={course}
+                  onClick={() => {
+                    setSelectedCourse(course);
+                    setIsModalOpen(true);
+                  }}
+                />
+              ))}
             </div>
           )}
 

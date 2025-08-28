@@ -27,7 +27,7 @@ const Hero: React.FC<HeroProps> = ({ title, subtitle, ctaLabel }) => {
       return (
         <Button
           onClick={handlePrimaryAction}
-          className="inline-flex items-center gap-2 rounded-lg px-5 md:px-6 py-3 md:py-3.5 text-sm md:text-base font-semibold text-white bg-[linear-gradient(135deg,#22c55e,#16a34a)] hover:brightness-105 active:brightness-95 shadow-[0_6px_20px_rgba(22,163,74,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+          className="inline-flex items-center gap-2 rounded-lg px-5 md:px-6 py-3 md:py-3.5 text-sm md:text-base font-semibold text-green-800 bg-white hover:bg-green-50 active:bg-green-100 shadow-[0_6px_20px_rgba(255,255,255,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300 border border-green-200"
         >
           <Users className="h-4 w-4 md:h-5 md:w-5 opacity-90" />
           {ctaLabel}
@@ -38,7 +38,7 @@ const Hero: React.FC<HeroProps> = ({ title, subtitle, ctaLabel }) => {
     return (
       <Button
         onClick={handlePrimaryAction}
-        className="inline-flex items-center gap-2 rounded-lg px-5 md:px-6 py-3 md:py-3.5 text-sm md:text-base font-semibold text-white bg-[linear-gradient(135deg,#22c55e,#16a34a)] hover:brightness-105 active:brightness-95 shadow-[0_6px_20px_rgba(22,163,74,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+        className="inline-flex items-center gap-2 rounded-lg px-5 md:px-6 py-3 md:py-3.5 text-sm md:text-base font-semibold text-green-800 bg-white hover:bg-green-50 active:bg-green-100 shadow-[0_6px_20px_rgba(255,255,255,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300 border border-green-200"
       >
         <Play className="h-4 w-4 md:h-5 md:w-5 opacity-90" />
         Continuer l'apprentissage

@@ -3,58 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import CourseModal from '@/components/ui/course-modal';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import Layout from '@/components/Layout';
+import CourseCard from '@/components/ui/course-card';
+import CourseCardSkeleton from '@/components/ui/course-card-skeleton';
 import { 
   BookOpen, 
-  Play, 
-  Clock, 
-  Star,
-  Calculator,
-  Microscope,
-  Globe,
-  Palette,
-  Music,
-  Computer,
   Search,
   Filter
 } from 'lucide-react';
 
-const categoryIcons = {
-  mathematiques: Calculator,
-  sciences: Microscope,
-  langues: Globe,
-  histoire: BookOpen,
-  geographie: Globe,
-  arts: Palette,
-  sport: Music,
-  informatique: Computer
-};
 
-const categoryColors = {
-  mathematiques: 'bg-blue-100 text-blue-800 border-blue-200',
-  sciences: 'bg-green-100 text-green-800 border-green-200',
-  langues: 'bg-purple-100 text-purple-800 border-purple-200',
-  histoire: 'bg-orange-100 text-orange-800 border-orange-200',
-  geographie: 'bg-teal-100 text-teal-800 border-teal-200',
-  arts: 'bg-pink-100 text-pink-800 border-pink-200',
-  sport: 'bg-red-100 text-red-800 border-red-200',
-  informatique: 'bg-indigo-100 text-indigo-800 border-indigo-200'
-};
-
-const categoryNames = {
-  mathematiques: 'Mathématiques',
-  sciences: 'Sciences',
-  langues: 'Langues',
-  histoire: 'Histoire',
-  geographie: 'Géographie',
-  arts: 'Arts',
-  sport: 'Sport',
-  informatique: 'Informatique'
-};
 
 const Courses = () => {
   const { user, loading } = useAuth();
@@ -183,7 +144,7 @@ const Courses = () => {
                     }`}
                     onClick={() => setSelectedCategory(category)}
                   >
-                    {categoryNames[category as keyof typeof categoryNames]} ({courseCount})
+                    {category} ({courseCount})
                   </Badge>
                 );
               })}
@@ -194,71 +155,29 @@ const Courses = () => {
           <div className="mb-6">
             <p className="text-gray-700">
               {filteredCourses.length} cours trouvé{filteredCourses.length > 1 ? 's' : ''}
-              {selectedCategory !== 'all' && ` dans ${categoryNames[selectedCategory as keyof typeof categoryNames]}`}
+              {selectedCategory !== 'all' && ` dans ${selectedCategory}`}
             </p>
           </div>
 
           {/* Courses Grid */}
           {coursesLoading ? (
-            <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500 mx-auto"></div>
-              <p className="text-green-600 mt-4">Chargement des cours...</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, index) => (
+                <CourseCardSkeleton key={index} />
+              ))}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredCourses.map((course) => {
-                const IconComponent = categoryIcons[course.category as keyof typeof categoryIcons] || BookOpen;
-                const colorClass = categoryColors[course.category as keyof typeof categoryColors] || 'bg-gray-100 text-gray-800';
-                
-                return (
-                                     <Card key={course.id} className="bg-white hover:shadow-lg transition-all hover:scale-105 border border-gray-200">
-                    <CardHeader>
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center space-x-2">
-                          <IconComponent className="h-5 w-5 text-gray-600" />
-                          <Badge className={`${colorClass} border`}>
-                            {categoryNames[course.category as keyof typeof categoryNames]}
-                          </Badge>
-                        </div>
-                        {course.is_premium && (
-                          <Badge variant="secondary" className="bg-yellow-100 text-yellow-800 border-yellow-200">
-                            <Star className="h-3 w-3 mr-1" />
-                            Premium
-                          </Badge>
-                        )}
-                      </div>
-                      <CardTitle className="text-lg text-gray-800">{course.title}</CardTitle>
-                      {course.description && (
-                        <CardDescription className="line-clamp-2 text-gray-600">
-                          {course.description}
-                        </CardDescription>
-                      )}
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
-                        {course.duration_minutes && (
-                          <div className="flex items-center space-x-1">
-                            <Clock className="h-4 w-4" />
-                            <span>{course.duration_minutes} min</span>
-                          </div>
-                        )}
-                      </div>
-                      
-                      <Button
-                        size="sm"
-                        onClick={() => {
-                          setSelectedCourse(course);
-                          setIsModalOpen(true);
-                        }}
-                        className="w-full bg-blue-500 hover:bg-blue-600 text-white"
-                      >
-                        <Play className="h-4 w-4 mr-2" />
-                        Voir le cours
-                      </Button>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+              {filteredCourses.map((course) => (
+                <CourseCard
+                  key={course.id}
+                  course={course}
+                  onClick={() => {
+                    setSelectedCourse(course);
+                    setIsModalOpen(true);
+                  }}
+                />
+              ))}
             </div>
           )}
 

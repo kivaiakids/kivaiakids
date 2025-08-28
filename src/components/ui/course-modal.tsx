@@ -3,9 +3,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Play, Calendar, Clock, ExternalLink, Video, Music, FileText } from 'lucide-react';
+import { Play, Calendar, Clock, ExternalLink, Video, Music, FileText, Star, Lock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { usePremium } from '@/hooks/use-premium';
 
 interface Course {
   id: string;
@@ -16,6 +17,7 @@ interface Course {
   duration_minutes: number;
   published: boolean;
   created_at: string;
+  is_premium: boolean;
   video_url?: string;
   audio_url?: string;
   file_url?: string;
@@ -44,10 +46,18 @@ const categoryNames: Record<string, string> = {
 const CourseModal: React.FC<CourseModalProps> = ({ course, isOpen, onClose }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { isPremium } = usePremium();
 
   if (!course) return null;
 
   const handleStartCourse = () => {
+    // Si c'est un cours premium et que l'utilisateur n'est pas premium
+    if (course.is_premium && !isPremium) {
+      onClose();
+      navigate('/premium');
+      return;
+    }
+
     onClose();
     if (user) {
       navigate(`/course/${course.id}`);
@@ -91,6 +101,16 @@ const CourseModal: React.FC<CourseModalProps> = ({ course, isOpen, onClose }) =>
                   <span className="text-white text-lg font-semibold">Image du cours</span>
                 </div>
               )}
+              
+              {/* Premium Badge */}
+              {course.is_premium && (
+                <div className="absolute top-4 right-4">
+                  <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-0 shadow-lg">
+                    <Star className="h-3 w-3 mr-1" />
+                    Premium
+                  </Badge>
+                </div>
+              )}
             </div>
 
             {/* Informations */}
@@ -120,10 +140,28 @@ const CourseModal: React.FC<CourseModalProps> = ({ course, isOpen, onClose }) =>
               {/* Bouton Commencer */}
               <Button
                 onClick={handleStartCourse}
-                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-3 text-lg"
+                className={`w-full font-semibold py-3 text-lg ${
+                  course.is_premium && !isPremium
+                    ? 'bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600'
+                    : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700'
+                } text-white`}
               >
-                <Play className="h-5 w-5 mr-2" />
-                {user ? 'Commencer le cours' : 'S\'inscrire pour accéder au cours'}
+                {course.is_premium && !isPremium ? (
+                  <>
+                    <Lock className="h-5 w-5 mr-2" />
+                    Cours Premium - Passer au Premium
+                  </>
+                ) : user ? (
+                  <>
+                    <Play className="h-5 w-5 mr-2" />
+                    Commencer le cours
+                  </>
+                ) : (
+                  <>
+                    <Play className="h-5 w-5 mr-2" />
+                    S'inscrire pour accéder au cours
+                  </>
+                )}
               </Button>
             </div>
           </div>
