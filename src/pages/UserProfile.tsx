@@ -17,7 +17,10 @@ import {
   Edit,
   Save,
   X,
-  Trash2
+  Trash2,
+  Sparkles,
+  Star,
+  Zap
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import DeleteAccountModal from '@/components/ui/delete-account-modal';
@@ -189,7 +192,7 @@ const UserProfile = () => {
   return (
     <Layout>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mb-8">
             <Button
@@ -214,22 +217,21 @@ const UserProfile = () => {
 
           {/* Main Content Grid - Desktop Optimized */}
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-8">
-            {/* Left Column - Profile Info & Avatar */}
-            <div className="xl:col-span-4 space-y-6">
-              
-              {/* Profile Information Card */}
-              <Card className="bg-white/80 backdrop-blur-sm border-blue-200">
+            
+            {/* 1. Section Informations Personnelles - Large */}
+            <div className="xl:col-span-6">
+              <Card className="bg-white/90 backdrop-blur-sm border-blue-200 shadow-lg">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div>
-                      <CardTitle className="text-blue-800">Informations personnelles</CardTitle>
-                      <CardDescription>Vos données de base et paramètres</CardDescription>
+                      <CardTitle className="text-2xl text-blue-800">Informations personnelles</CardTitle>
+                      <CardDescription className="text-blue-600">Vos données de base et paramètres</CardDescription>
                     </div>
                     {!isEditing && (
                       <Button
                         variant="outline"
                         onClick={() => setIsEditing(true)}
-                        className="border-blue-300 text-blue-700 hover:bg-blue-50 px-6"
+                        className="border-blue-300 text-blue-700 hover:bg-blue-50 px-6 py-2"
                       >
                         <Edit className="h-4 w-4 mr-2" />
                         Modifier
@@ -240,25 +242,25 @@ const UserProfile = () => {
                 <CardContent className="space-y-6">
                   {isEditing ? (
                     <div className="space-y-6">
-                      <div className="grid grid-cols-1 gap-4">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                          <Label htmlFor="first_name" className="text-sm font-medium">Prénom</Label>
+                          <Label htmlFor="first_name" className="text-sm font-medium text-gray-700">Prénom</Label>
                           <Input
                             id="first_name"
                             value={editData.first_name}
                             onChange={(e) => setEditData({ ...editData, first_name: e.target.value })}
                             placeholder="Votre prénom"
-                            className="h-11"
+                            className="h-12 text-base"
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="last_name" className="text-sm font-medium">Nom</Label>
+                          <Label htmlFor="last_name" className="text-sm font-medium text-gray-700">Nom</Label>
                           <Input
                             id="last_name"
                             value={editData.last_name}
                             onChange={(e) => setEditData({ ...editData, last_name: e.target.value })}
                             placeholder="Votre nom"
-                            className="h-11"
+                            className="h-12 text-base"
                           />
                         </div>
                       </div>
@@ -266,7 +268,7 @@ const UserProfile = () => {
                       <div className="flex space-x-3 pt-2">
                         <Button
                           onClick={handleSaveProfile}
-                          className="bg-blue-600 hover:bg-blue-700 px-6 py-2"
+                          className="bg-blue-600 hover:bg-blue-700 px-8 py-3 text-base"
                         >
                           <Save className="h-4 w-4 mr-2" />
                           Sauvegarder
@@ -280,7 +282,7 @@ const UserProfile = () => {
                               last_name: profileData?.last_name || ''
                             });
                           }}
-                          className="px-6 py-2"
+                          className="px-8 py-3 text-base"
                         >
                           <X className="h-4 w-4 mr-2" />
                           Annuler
@@ -288,26 +290,26 @@ const UserProfile = () => {
                       </div>
                     </div>
                   ) : (
-                    <div className="space-y-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label className="text-sm font-medium text-gray-500">Prénom</Label>
-                        <p className="text-gray-900 text-lg">
+                        <p className="text-gray-900 text-lg font-medium">
                           {profileData?.first_name || 'Non renseigné'}
                         </p>
                       </div>
                       <div className="space-y-2">
                         <Label className="text-sm font-medium text-gray-500">Nom</Label>
-                        <p className="text-gray-900 text-lg">
+                        <p className="text-gray-900 text-lg font-medium">
                           {profileData?.last_name || 'Non renseigné'}
                         </p>
                       </div>
-                      <div className="space-y-2">
+                      <div className="space-y-2 lg:col-span-2">
                         <Label className="text-sm font-medium text-gray-500">Email</Label>
-                        <p className="text-gray-900 text-lg">{profileData?.email}</p>
+                        <p className="text-gray-900 text-lg font-medium break-all">{profileData?.email}</p>
                       </div>
-                      <div className="space-y-2">
+                      <div className="space-y-2 lg:col-span-2">
                         <Label className="text-sm font-medium text-gray-500">Date d'inscription</Label>
-                        <p className="text-gray-900 text-lg">
+                        <p className="text-gray-900 text-lg font-medium">
                           {profileData?.created_at ? formatDate(profileData.created_at) : 'Non disponible'}
                         </p>
                       </div>
@@ -315,16 +317,23 @@ const UserProfile = () => {
                   )}
                 </CardContent>
               </Card>
+            </div>
 
-              {/* Avatar & Role Card */}
-              <Card className="bg-white/80 backdrop-blur-sm border-blue-200">
+            {/* 2. Section Photo de Profil - Avatars Modernes */}
+            <div className="xl:col-span-6">
+              <Card className="bg-white/90 backdrop-blur-sm border-purple-200 shadow-lg">
                 <CardHeader className="text-center">
-                  <CardTitle className="text-blue-800">Photo de profil</CardTitle>
+                  <CardTitle className="text-2xl text-purple-800 flex items-center justify-center gap-2">
+                    <Sparkles className="h-6 w-6 text-purple-500" />
+                    Photo de profil
+                    <Sparkles className="h-6 w-6 text-purple-500" />
+                  </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  {/* Avatar Display */}
+                <CardContent className="space-y-8">
+                  
+                  {/* Avatar Display avec Role */}
                   <div className="relative inline-block">
-                    <div className="w-32 h-32 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white text-4xl font-semibold mx-auto">
+                    <div className="w-40 h-40 bg-gradient-to-br from-purple-400 via-pink-400 to-indigo-500 rounded-full flex items-center justify-center text-white text-6xl font-semibold mx-auto shadow-2xl border-4 border-white">
                       {profileData?.avatar_url ? (
                         getAvatarEmoji(profileData.avatar_url)
                       ) : (
@@ -336,8 +345,8 @@ const UserProfile = () => {
                     
                     {/* Role Badge */}
                     {profileData?.role === 'admin' && (
-                      <div className="absolute -top-2 -right-2">
-                        <Badge className="bg-yellow-500 text-white border-2 border-white">
+                      <div className="absolute -top-3 -right-3">
+                        <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white border-2 border-white px-3 py-1 text-sm font-bold shadow-lg">
                           <Crown className="h-4 w-4 mr-1" />
                           Admin
                         </Badge>
@@ -348,46 +357,57 @@ const UserProfile = () => {
                   {/* Role Information */}
                   <div className="text-center">
                     {profileData?.role === 'admin' ? (
-                      <div className="flex items-center justify-center space-x-2">
-                        <Crown className="h-6 w-6 text-yellow-500" />
+                      <div className="flex items-center justify-center space-x-3">
+                        <Crown className="h-8 w-8 text-yellow-500" />
                         <div>
-                          <p className="font-semibold text-yellow-600">Administrateur</p>
-                          <p className="text-sm text-gray-600">Accès complet à la plateforme</p>
+                          <p className="font-bold text-yellow-600 text-lg">Administrateur</p>
+                          <p className="text-gray-600">Accès complet à la plateforme</p>
                         </div>
                       </div>
                     ) : (
-                      <div className="flex items-center justify-center space-x-2">
-                        <User className="h-6 w-6 text-blue-500" />
+                      <div className="flex items-center justify-center space-x-3">
+                        <User className="h-8 w-8 text-blue-500" />
                         <div>
-                          <p className="font-semibold text-blue-600">Étudiant</p>
-                          <p className="text-sm text-gray-600">Accès aux cours et ressources</p>
+                          <p className="font-bold text-blue-600 text-lg">Étudiant</p>
+                          <p className="text-gray-600">Accès aux cours et ressources</p>
                         </div>
                       </div>
                     )}
                   </div>
 
-                  {/* Avatar Selection */}
-                  <div className="space-y-3">
-                    <p className="text-sm text-gray-600 font-medium">Choisissez votre avatar :</p>
-                    <div className="grid grid-cols-2 gap-3">
+                  {/* Avatar Selection - Plus moderne et ludique */}
+                  <div className="space-y-4">
+                    <p className="text-center text-gray-700 font-semibold text-lg">Choisissez votre avatar :</p>
+                    <div className="grid grid-cols-2 gap-4">
                       {[
-                        { id: '1', emoji: '😊', color: 'from-blue-400 to-indigo-500' },
-                        { id: '2', emoji: '🎨', color: 'from-green-400 to-emerald-500' },
-                        { id: '3', emoji: '⭐', color: 'from-purple-400 to-violet-500' },
-                        { id: '4', emoji: '🚀', color: 'from-orange-400 to-red-500' }
+                        { id: '1', emoji: '😊', color: 'from-blue-400 via-cyan-400 to-indigo-500', name: 'Sourire' },
+                        { id: '2', emoji: '🎨', color: 'from-green-400 via-emerald-400 to-teal-500', name: 'Artiste' },
+                        { id: '3', emoji: '⭐', color: 'from-purple-400 via-pink-400 to-violet-500', name: 'Étoile' },
+                        { id: '4', emoji: '🚀', color: 'from-orange-400 via-red-400 to-pink-500', name: 'Rocket' }
                       ].map((avatar) => (
                         <button
                           key={avatar.id}
                           onClick={() => handleAvatarSelect(avatar.id)}
-                          className={`w-16 h-16 rounded-full border-2 transition-all hover:scale-105 ${
+                          disabled={uploadingAvatar}
+                          className={`group relative p-4 rounded-2xl border-2 transition-all duration-300 hover:scale-105 ${
                             profileData?.avatar_url === `/avatars/avatar${avatar.id}.png` 
-                              ? 'border-blue-500 scale-110' 
-                              : 'border-gray-200 hover:border-blue-300'
-                          }`}
+                              ? 'border-purple-500 scale-105 shadow-lg' 
+                              : 'border-gray-200 hover:border-purple-300 hover:shadow-md'
+                          } ${uploadingAvatar ? 'opacity-50 cursor-not-allowed' : ''}`}
                         >
-                          <div className={`w-full h-full bg-gradient-to-br ${avatar.color} rounded-full flex items-center justify-center text-white font-bold text-lg`}>
+                          <div className={`w-16 h-16 bg-gradient-to-br ${avatar.color} rounded-full flex items-center justify-center text-white font-bold text-2xl mx-auto mb-2 group-hover:scale-110 transition-transform duration-200`}>
                             {avatar.emoji}
                           </div>
+                          <p className="text-sm font-medium text-gray-700 group-hover:text-purple-600 transition-colors">
+                            {avatar.name}
+                          </p>
+                          {profileData?.avatar_url === `/avatars/avatar${avatar.id}.png` && (
+                            <div className="absolute top-2 right-2">
+                              <div className="w-4 h-4 bg-purple-500 rounded-full flex items-center justify-center">
+                                <Star className="h-3 w-3 text-white" />
+                              </div>
+                            </div>
+                          )}
                         </button>
                       ))}
                     </div>
@@ -396,34 +416,32 @@ const UserProfile = () => {
               </Card>
             </div>
 
-            {/* Right Column - Subscription & Actions */}
-            <div className="xl:col-span-8 space-y-6">
-
-
-
-
-              {/* Subscription Management Card */}
-              <Card className="bg-white/80 backdrop-blur-sm border-green-200">
+            {/* 3. Section Gestion Abonnement */}
+            <div className="xl:col-span-6">
+              <Card className="bg-white/90 backdrop-blur-sm border-green-200 shadow-lg">
                 <CardHeader>
-                  <CardTitle className="text-green-800">Gestion de l'abonnement</CardTitle>
-                  <CardDescription className="text-green-600">
+                  <CardTitle className="text-2xl text-green-800 flex items-center gap-2">
+                    <Zap className="h-6 w-6 text-green-500" />
+                    Gestion de l'abonnement
+                  </CardTitle>
+                  <CardDescription className="text-green-600 text-base">
                     Gérez votre abonnement Premium et vos informations de facturation
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                    <h4 className="font-semibold text-green-800 mb-2 flex items-center gap-2">
-                      <span className="text-lg">💳</span>
+                <CardContent className="space-y-6">
+                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
+                    <h4 className="font-bold text-green-800 text-lg mb-3 flex items-center gap-2">
+                      <span className="text-xl">💳</span>
                       Gérer mon abonnement
                     </h4>
-                    <p className="text-sm text-green-700 mb-3">
+                    <p className="text-green-700 mb-4 leading-relaxed">
                       Accédez à votre portail de facturation Stripe pour gérer votre abonnement, 
                       modifier votre méthode de paiement ou annuler votre abonnement.
                     </p>
                     <Button
                       onClick={openPortal}
                       disabled={isPortalLoading}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                      className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold py-3 text-base transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                     >
                       {isPortalLoading ? (
                         <>
@@ -440,121 +458,24 @@ const UserProfile = () => {
                   </div>
                 </CardContent>
               </Card>
+            </div>
 
-              {/* Profile Information Card */}
-              <Card className="bg-white/80 backdrop-blur-sm border-blue-200">
+            {/* 4. Section Actions du Compte */}
+            <div className="xl:col-span-6">
+              <Card className="bg-white/90 backdrop-blur-sm border-orange-200 shadow-lg">
                 <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="text-blue-800">Informations personnelles</CardTitle>
-                      <CardDescription>Vos données de base et paramètres</CardDescription>
-                    </div>
-                    {!isEditing && (
-                      <Button
-                        variant="outline"
-                        onClick={() => setIsEditing(true)}
-                        className="border-blue-300 text-blue-700 hover:bg-blue-50 px-6"
-                      >
-                        <Edit className="h-4 w-4 mr-2" />
-                        Modifier
-                      </Button>
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {isEditing ? (
-                    <div className="space-y-6">
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <Label htmlFor="first_name" className="text-sm font-medium">Prénom</Label>
-                          <Input
-                            id="first_name"
-                            value={editData.first_name}
-                            onChange={(e) => setEditData({ ...editData, first_name: e.target.value })}
-                            placeholder="Votre prénom"
-                            className="h-11"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="last_name" className="text-sm font-medium">Nom</Label>
-                          <Input
-                            id="last_name"
-                            value={editData.last_name}
-                            onChange={(e) => setEditData({ ...editData, last_name: e.target.value })}
-                            placeholder="Votre nom"
-                            className="h-11"
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="flex space-x-3 pt-2">
-                        <Button
-                          onClick={handleSaveProfile}
-                          className="bg-blue-600 hover:bg-blue-700 px-6 py-2"
-                        >
-                          <Save className="h-4 w-4 mr-2" />
-                          Sauvegarder
-                        </Button>
-                        <Button
-                          variant="outline"
-                          onClick={() => {
-                            setIsEditing(false);
-                            setEditData({
-                              first_name: profileData?.first_name || '',
-                              last_name: profileData?.last_name || ''
-                            });
-                          }}
-                          className="px-6 py-2"
-                        >
-                          <X className="h-4 w-4 mr-2" />
-                          Annuler
-                        </Button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <Label className="text-sm font-medium text-gray-500">Prénom</Label>
-                        <p className="text-gray-900 text-lg">
-                          {profileData?.first_name || 'Non renseigné'}
-                        </p>
-                      </div>
-                      <div className="space-y-2">
-                        <Label className="text-sm font-medium text-gray-500">Nom</Label>
-                        <p className="text-gray-900 text-lg">
-                          {profileData?.last_name || 'Non renseigné'}
-                        </p>
-                      </div>
-                      <div className="space-y-2">
-                        <Label className="text-sm font-medium text-gray-500">Email</Label>
-                        <p className="text-gray-900 text-lg">{profileData?.email}</p>
-                      </div>
-                      <div className="space-y-2">
-                        <Label className="text-sm font-medium text-gray-500">Date d'inscription</Label>
-                        <p className="text-gray-900 text-lg">
-                          {profileData?.created_at ? formatDate(profileData.created_at) : 'Non disponible'}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* Account Actions Card */}
-              <Card className="bg-white/80 backdrop-blur-sm border-orange-200">
-                <CardHeader>
-                  <CardTitle className="text-orange-800">Actions du compte</CardTitle>
-                  <CardDescription className="text-orange-600">
+                  <CardTitle className="text-2xl text-orange-800">Actions du compte</CardTitle>
+                  <CardDescription className="text-orange-600 text-base">
                     Gestion avancée de votre compte
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   
                   {/* Delete Account Section */}
-                  <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+                  <div className="bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 rounded-xl p-6">
                     <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                       <div className="flex-1 space-y-3">
-                        <h4 className="font-semibold text-red-800 text-lg flex items-center gap-2">
+                        <h4 className="font-bold text-red-800 text-lg flex items-center gap-2">
                           <span className="text-xl">⚠️</span>
                           Supprimer mon compte
                         </h4>
@@ -582,8 +503,8 @@ const UserProfile = () => {
                   </div>
                 </CardContent>
               </Card>
-
             </div>
+
           </div>
         </div>
       </div>
