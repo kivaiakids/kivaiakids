@@ -150,6 +150,16 @@ const Auth = () => {
                   >
                     {formLoading ? 'Connexion...' : 'Se connecter'}
                   </Button>
+                  
+                  <div className="text-center">
+                    <button
+                      type="button"
+                      onClick={() => navigate('/forgot-password')}
+                      className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors"
+                    >
+                      Mot de passe oublié ?
+                    </button>
+                  </div>
                 </form>
               </TabsContent>
               
