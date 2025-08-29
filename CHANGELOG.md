@@ -473,6 +473,48 @@ L'application est maintenant **professionnelle** et **optimisée** :
 - **Production Ready**: No localhost references, optimized for Apache hosting
 - **Cache Strategy**: Static assets cached for 1 year, HTML always fresh
 
+## [2025-01-27] - Hero Section Modernization
+
+### Enhanced
+- **Hero Design**: Complete modernization from flat green background to sophisticated design
+- **Background**: Replaced solid green with subtle gradient background (`emerald-50` to `teal-50`)
+- **Typography**: Title now uses gradient text effect (`emerald-600` to `teal-600`)
+- **Visual Elements**: Added floating geometric shapes with blur effects and subtle grid pattern
+
+### Improved
+- **Button Design**: Modern gradient buttons with hover animations and glow effects
+- **Color Scheme**: Sophisticated emerald-to-teal palette instead of basic green
+- **Spacing**: Enhanced margins and padding for better visual hierarchy
+- **Interactive Elements**: Added hover effects, transforms, and smooth transitions
+
+### Visual Features
+- **Geometric Shapes**: Floating rounded rectangles and circles with subtle rotations
+- **Mesh Gradient**: Overlay with transparent-to-color transitions
+- **Grid Pattern**: Subtle background texture for depth
+- **Accent Line**: Decorative gradient line below CTA for visual polish
+- **Glow Effects**: Subtle shadows and blur effects on interactive elements
+
+## [2025-01-27] - Homepage Visual Coherence & Modernization
+
+### Enhanced
+- **Visual Consistency**: Unified color palette across all homepage sections
+- **Typography System**: Consistent gradient text effects for all main headings
+- **Background Harmony**: Coherent subtle background elements throughout the page
+- **Section Spacing**: Standardized padding and margins for better visual rhythm
+
+### Improved
+- **Features Section**: Modernized with emerald-to-teal gradient theme
+- **Course Preview Section**: Enhanced with subtle background elements
+- **Card Design**: Unified modern card style with consistent shadows and hover effects
+- **Button Styling**: Consistent gradient buttons with modern hover animations
+
+### Design System Updates
+- **Color Palette**: Primary emerald-to-teal gradient (`emerald-500` to `teal-500`)
+- **Typography**: Gradient text effects for all main headings
+- **Background Elements**: Subtle floating shapes with blur effects
+- **Interactive Elements**: Consistent hover states and transitions
+- **Visual Hierarchy**: Improved spacing and typography scale
+
 ## [2025-01-27] - Stripe Customer Portal Integration
 
 ### Added

@@ -68,61 +68,67 @@ const Index = () => {
     <Layout>
       {/* Hero Section */}
       <Hero 
-        title="Bienvenue sur KivaïaKids ! 🎉"
+        title="Bienvenue sur KivaïaKids !"
         subtitle="Une plateforme éducative simple et efficace pour apprendre les langues. Découvre des cours dans toutes les matières !"
         ctaLabel="Rejoindre maintenant"
       />
 
       {/* Features Section */}
-      <section className="py-16 bg-gradient-to-b from-emerald-50 to-teal-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-white relative overflow-hidden">
+        {/* Subtle background elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 right-20 w-64 h-64 bg-gradient-to-br from-emerald-100/40 to-teal-100/40 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-48 h-48 bg-gradient-to-br from-green-100/30 to-emerald-100/30 rounded-full blur-2xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-green-800 mb-4">
-              Pourquoi choisir KivaïaKids ? 🌟
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
+              Pourquoi choisir KivaïaKids ?
             </h2>
-            <p className="text-green-600 text-lg max-w-2xl mx-auto">
+            <p className="text-gray-600 text-xl max-w-3xl mx-auto leading-relaxed">
               Notre plateforme offre une expérience d'apprentissage unique, adaptée aux besoins des jeunes apprenants
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="text-center hover:shadow-lg transition-shadow animate-float bg-white/80 backdrop-blur-sm border-green-200">
+            <Card className="text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 bg-white/90 backdrop-blur-sm border-0 shadow-lg">
               <CardHeader>
-                <div className="bg-gradient-to-br from-green-400 to-emerald-500 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center shadow-lg">
-                  <BookOpen className="h-8 w-8 text-white" />
+                <div className="bg-gradient-to-br from-emerald-500 to-teal-500 p-5 rounded-2xl w-20 h-20 mx-auto mb-6 flex items-center justify-center shadow-xl">
+                  <BookOpen className="h-10 w-10 text-white" />
                 </div>
-                <CardTitle className="text-xl text-green-800">Contenu Éducatif</CardTitle>
+                <CardTitle className="text-2xl font-bold text-gray-900">Contenu Éducatif</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-green-600">
+                <p className="text-gray-600 text-lg leading-relaxed">
                   Des cours conçus par des experts pédagogiques, adaptés à chaque tranche d'âge
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow animate-float bg-white/80 backdrop-blur-sm border-pink-200" style={{ animationDelay: '0.5s' }}>
+            <Card className="text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 bg-white/90 backdrop-blur-sm border-0 shadow-lg" style={{ animationDelay: '0.2s' }}>
               <CardHeader>
-                <div className="bg-gradient-to-br from-pink-400 to-rose-500 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center shadow-lg">
-                  <Trophy className="h-8 w-8 text-white" />
+                <div className="bg-gradient-to-br from-emerald-500 to-teal-500 p-5 rounded-2xl w-20 h-20 mx-auto mb-6 flex items-center justify-center shadow-xl">
+                  <Trophy className="h-10 w-10 text-white" />
                 </div>
-                <CardTitle className="text-xl text-pink-800">Méthode Simple</CardTitle>
+                <CardTitle className="text-2xl font-bold text-gray-900">Méthode Simple</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-pink-600">
+                <p className="text-gray-600 text-lg leading-relaxed">
                   Une approche claire et directe pour progresser efficacement dans ton apprentissage
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow animate-float bg-white/80 backdrop-blur-sm border-blue-200" style={{ animationDelay: '1s' }}>
+            <Card className="text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 bg-white/90 backdrop-blur-sm border-0 shadow-lg" style={{ animationDelay: '0.4s' }}>
               <CardHeader>
-                <div className="bg-gradient-to-br from-blue-400 to-sky-500 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center shadow-lg">
-                  <Users className="h-8 w-8 text-white" />
+                <div className="bg-gradient-to-br from-emerald-500 to-teal-500 p-5 rounded-2xl w-20 h-20 mx-auto mb-6 flex items-center justify-center shadow-xl">
+                  <Users className="h-10 w-10 text-white" />
                 </div>
-                <CardTitle className="text-xl text-blue-800">Environnement Sûr</CardTitle>
+                <CardTitle className="text-2xl font-bold text-gray-900">Environnement Sûr</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-blue-600">
+                <p className="text-gray-600 text-lg leading-relaxed">
                   Un espace sécurisé et contrôlé, spécialement conçu pour la sécurité des enfants
                 </p>
               </CardContent>
@@ -132,13 +138,19 @@ const Index = () => {
       </section>
 
       {/* Courses Preview Section */}
-      <section className="py-16 bg-muted">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gray-50 relative overflow-hidden">
+        {/* Subtle background elements */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-10 left-10 w-48 h-48 bg-gradient-to-br from-emerald-100/30 to-teal-100/30 rounded-full blur-2xl"></div>
+          <div className="absolute bottom-10 right-10 w-32 h-32 bg-gradient-to-br from-green-100/40 to-emerald-100/40 rounded-full blur-xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Nos 3 derniers cours ! 📚
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
+              Nos 3 derniers cours !
             </h2>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-gray-600 text-xl max-w-3xl mx-auto leading-relaxed">
               Découvre nos contenus les plus récents
             </p>
           </div>
@@ -179,7 +191,7 @@ const Index = () => {
               <Button
                 onClick={() => navigate('/courses')}
                 size="lg"
-                className="bg-gradient-primary"
+                className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
               >
                 Voir tous les cours
               </Button>

@@ -27,7 +27,7 @@ const Hero: React.FC<HeroProps> = ({ title, subtitle, ctaLabel }) => {
       return (
         <Button
           onClick={handlePrimaryAction}
-          className="inline-flex items-center gap-2 rounded-lg px-5 md:px-6 py-3 md:py-3.5 text-sm md:text-base font-semibold text-green-800 bg-white hover:bg-green-50 active:bg-green-100 shadow-[0_6px_20px_rgba(255,255,255,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300 border border-green-200"
+          className="inline-flex items-center gap-2 rounded-xl px-6 md:px-8 py-3 md:py-4 text-sm md:text-base font-semibold text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 active:from-emerald-700 active:to-teal-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
         >
           <Users className="h-4 w-4 md:h-5 md:w-5 opacity-90" />
           {ctaLabel}
@@ -38,7 +38,7 @@ const Hero: React.FC<HeroProps> = ({ title, subtitle, ctaLabel }) => {
     return (
       <Button
         onClick={handlePrimaryAction}
-        className="inline-flex items-center gap-2 rounded-lg px-5 md:px-6 py-3 md:py-3.5 text-sm md:text-base font-semibold text-green-800 bg-white hover:bg-green-50 active:bg-green-100 shadow-[0_6px_20px_rgba(255,255,255,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-300 border border-green-200"
+        className="inline-flex items-center gap-2 rounded-xl px-6 md:px-8 py-3 md:py-4 text-sm md:text-base font-semibold text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 active:from-emerald-700 active:to-teal-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2"
       >
         <Play className="h-4 w-4 md:h-5 md:w-5 opacity-90" />
         Continuer l'apprentissage
@@ -47,25 +47,47 @@ const Hero: React.FC<HeroProps> = ({ title, subtitle, ctaLabel }) => {
   };
 
   return (
-    <section className="bg-[linear-gradient(135deg,#22c55e_0%,#16a34a_60%,#0ea15a_100%)] py-20 md:py-24 lg:py-28 relative overflow-hidden">
-      {/* Subtle background circles */}
+    <section className="relative overflow-hidden bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 py-20 md:py-24 lg:py-28">
+      {/* Modern geometric background elements */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 -left-20 w-52 h-52 bg-white/10 rounded-full blur-sm opacity-10"></div>
-        <div className="absolute bottom-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-sm opacity-10"></div>
+        {/* Subtle mesh gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 via-transparent to-teal-400/20"></div>
+        
+        {/* Floating geometric shapes */}
+        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-emerald-300/30 to-teal-300/30 rounded-3xl rotate-12 blur-xl"></div>
+        <div className="absolute top-32 right-20 w-24 h-24 bg-gradient-to-br from-green-300/40 to-emerald-300/40 rounded-2xl -rotate-12 blur-lg"></div>
+        <div className="absolute bottom-20 left-1/4 w-20 h-20 bg-gradient-to-br from-teal-300/30 to-green-300/30 rounded-full blur-lg"></div>
+        <div className="absolute bottom-32 right-1/3 w-28 h-28 bg-gradient-to-br from-emerald-200/40 to-green-200/40 rounded-3xl rotate-45 blur-xl"></div>
+        
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(34,197,94,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(34,197,94,0.03)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
       </div>
 
+      {/* Content container */}
       <div className="max-w-[1200px] mx-auto px-4 lg:px-6 relative z-10">
         <div className="text-center">
-          <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-center max-w-[900px] mx-auto leading-tight">
+          {/* Modern title with enhanced typography */}
+          <h1 className="text-gray-900 text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-center max-w-[900px] mx-auto leading-tight bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600 bg-clip-text text-transparent">
             {title}
           </h1>
           
-          <p className="mt-4 text-white/85 text-base md:text-lg lg:text-xl leading-relaxed text-center max-w-[780px] mx-auto">
+          {/* Enhanced subtitle */}
+          <p className="mt-6 text-gray-700 text-base md:text-lg lg:text-xl leading-relaxed text-center max-w-[780px] mx-auto font-medium">
             {subtitle}
           </p>
           
-          <div className="mt-8 flex justify-center">
-            {getPrimaryButton()}
+          {/* Modern CTA section */}
+          <div className="mt-10 flex justify-center">
+            <div className="relative group">
+              {getPrimaryButton()}
+              {/* Subtle glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/20 to-teal-400/20 rounded-lg blur-xl group-hover:blur-2xl transition-all duration-500 -z-10"></div>
+            </div>
+          </div>
+          
+          {/* Decorative accent line */}
+          <div className="mt-12 flex justify-center">
+            <div className="w-24 h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent rounded-full"></div>
           </div>
         </div>
       </div>
