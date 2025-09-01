@@ -17,6 +17,11 @@ import UserProfile from "./pages/UserProfile";
 import Terms from "./pages/Terms";
 import Premium from "./pages/Premium";
 import Pricing from "./pages/Pricing";
+import EveilAuxLangues from "./pages/EveilAuxLangues";
+import EveilSection from "./pages/EveilSection";
+import EveilDetail from "./pages/EveilDetail";
+import ManageEveil from "./pages/admin/ManageEveil";
+import CreateEveil from "./pages/admin/CreateEveil";
 import PurchaseSuccess from "./pages/PurchaseSuccess";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
@@ -41,10 +46,16 @@ const App = () => (
             <Route path="/admin/create-course" element={<CreateCourse />} />
             <Route path="/admin/manage-users" element={<ManageUsers />} />
             <Route path="/admin/manage-courses" element={<ManageCourses />} />
+            <Route path="/admin/eveil" element={<ManageEveil />} />
+            <Route path="/admin/eveil/new" element={<CreateEveil />} />
+            <Route path="/admin/eveil/:id/edit" element={<CreateEveil />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/premium" element={<Premium />} />
             <Route path="/pricing" element={<Pricing />} />
+            <Route path="/eveil-aux-langues" element={<EveilAuxLangues />} />
+            <Route path="/eveil-aux-langues/:section" element={<EveilSection />} />
+            <Route path="/eveil/:slug" element={<EveilDetail />} />
             <Route path="/purchase-success" element={<PurchaseSuccess />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />

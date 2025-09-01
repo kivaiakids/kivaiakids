@@ -83,6 +83,15 @@ const Layout = ({ children }: LayoutProps) => {
               Apprendre une langue
             </button>
             <button
+              onClick={() => navigate('/eveil-aux-langues')}
+              className={cn(
+                "text-sm lg:text-base font-medium text-white/90 hover:text-white transition-colors",
+                location.pathname.startsWith('/eveil-aux-langues') && "underline decoration-white/70 underline-offset-8"
+              )}
+            >
+              Éveil aux langues
+            </button>
+            <button
               onClick={() => navigate('/pricing')}
               className={cn(
                 "text-sm lg:text-base font-medium text-white/90 hover:text-white transition-colors",
@@ -194,6 +203,13 @@ const Layout = ({ children }: LayoutProps) => {
                       className="text-lg font-semibold px-4 py-4 rounded-lg hover:bg-green-50 text-left text-gray-800 transition-all duration-200 border border-gray-100 hover:border-green-300 hover:shadow-sm bg-white"
                     >
                       Apprendre une langue
+                    </button>
+                    
+                    <button
+                      onClick={() => handleNavigation('/eveil-aux-langues')}
+                      className="text-lg font-semibold px-4 py-4 rounded-lg hover:bg-green-50 text-left text-gray-800 transition-all duration-200 border border-gray-100 hover:border-green-300 hover:shadow-sm bg-white"
+                    >
+                      Éveil aux langues
                     </button>
                     
                     <button

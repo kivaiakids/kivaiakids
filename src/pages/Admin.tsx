@@ -143,7 +143,7 @@ const Admin = () => {
           </div>
 
           {/* Quick Actions */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card className="bg-white/80 backdrop-blur-sm border-green-200 hover:shadow-lg transition-all hover:scale-105 cursor-pointer" onClick={() => navigate('/admin/create-course')}>
               <CardHeader>
                 <div className="bg-gradient-to-br from-green-400 to-emerald-500 p-3 rounded-lg w-12 h-12 flex items-center justify-center mb-3">
@@ -158,6 +158,26 @@ const Admin = () => {
                 <Button 
                   className="w-full bg-gradient-to-r from-green-400 to-emerald-500 hover:from-green-500 hover:to-emerald-600 text-white"
                   onClick={() => navigate('/admin/create-course')}
+                >
+                  Créer
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white/80 backdrop-blur-sm border-orange-200 hover:shadow-lg transition-all hover:scale-105 cursor-pointer" onClick={() => navigate('/admin/eveil/new')}>
+              <CardHeader>
+                <div className="bg-gradient-to-br from-orange-400 to-red-500 p-3 rounded-lg w-12 h-12 flex items-center justify-center mb-3">
+                  <Plus className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-lg text-orange-800">Nouvel item d'éveil</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-orange-600 text-sm mb-4">
+                  Ajouter une activité d'éveil aux langues
+                </p>
+                <Button 
+                  className="w-full bg-gradient-to-r from-orange-400 to-red-500 hover:from-orange-500 hover:to-red-600 text-white"
+                  onClick={() => navigate('/admin/eveil/new')}
                 >
                   Créer
                 </Button>
@@ -198,6 +218,26 @@ const Admin = () => {
                 <Button 
                   className="w-full bg-gradient-to-r from-purple-400 to-violet-500 hover:from-purple-500 hover:to-violet-600 text-white"
                   onClick={() => navigate('/admin/manage-courses')}
+                >
+                  Gérer
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white/80 backdrop-blur-sm border-yellow-200 hover:shadow-lg transition-all hover:scale-105 cursor-pointer" onClick={() => navigate('/admin/eveil')}>
+              <CardHeader>
+                <div className="bg-gradient-to-br from-yellow-400 to-amber-500 p-3 rounded-lg w-12 h-12 flex items-center justify-center mb-3">
+                  <Activity className="h-6 w-6 text-white" />
+                </div>
+                <CardTitle className="text-lg text-yellow-800">Gérer l'éveil aux langues</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-yellow-600 text-sm mb-4">
+                  Modifier et gérer les activités d'éveil
+                </p>
+                <Button 
+                  className="w-full bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-500 hover:to-amber-600 text-white"
+                  onClick={() => navigate('/admin/eveil')}
                 >
                   Gérer
                 </Button>
