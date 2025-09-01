@@ -100,6 +100,15 @@ const Layout = ({ children }: LayoutProps) => {
             >
               Nos Offres
             </button>
+            <button
+              onClick={() => navigate('/about')}
+              className={cn(
+                "text-sm lg:text-base font-medium text-white/90 hover:text-white transition-colors",
+                location.pathname === '/about' && "underline decoration-white/70 underline-offset-8"
+              )}
+            >
+              À propos
+            </button>
           </nav>
 
           {/* Actions (right) */}
@@ -217,6 +226,13 @@ const Layout = ({ children }: LayoutProps) => {
                       className="text-lg font-semibold px-4 py-4 rounded-lg hover:bg-green-50 text-left text-gray-800 transition-all duration-200 border border-gray-100 hover:border-green-300 hover:shadow-sm bg-white"
                     >
                       Nos Offres
+                    </button>
+                    
+                    <button
+                      onClick={() => handleNavigation('/about')}
+                      className="text-lg font-semibold px-4 py-4 rounded-lg hover:bg-green-50 text-left text-gray-800 transition-all duration-200 border border-gray-100 hover:border-green-300 hover:shadow-sm bg-white"
+                    >
+                      À propos
                     </button>
 
                     {user ? (

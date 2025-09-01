@@ -25,6 +25,7 @@ import CreateEveil from "./pages/admin/CreateEveil";
 import PurchaseSuccess from "./pages/PurchaseSuccess";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -56,6 +57,7 @@ const App = () => (
             <Route path="/eveil-aux-langues" element={<EveilAuxLangues />} />
             <Route path="/eveil-aux-langues/:section" element={<EveilSection />} />
             <Route path="/eveil/:slug" element={<EveilDetail />} />
+            <Route path="/about" element={<About />} />
             <Route path="/purchase-success" element={<PurchaseSuccess />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
