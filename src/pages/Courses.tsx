@@ -92,14 +92,14 @@ const Courses = () => {
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
-                      <div className="text-center mb-8">
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-                Nos Cours 📚
-              </h1>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Découvre notre collection de cours interactifs et amusants pour apprendre en t'amusant !
-              </p>
-            </div>
+          <div className="text-center mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+              Apprendre une langue
+            </h1>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Découvre notre collection de contenus pour progresser pas à pas.
+            </p>
+          </div>
 
           {/* Search and Filters */}
           <div className="bg-white rounded-xl p-6 mb-8 shadow-lg border border-gray-200">

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { supabase } from '@/integrations/supabase/client';
 import Layout from '@/components/Layout';
 import Hero from '@/components/Hero';
@@ -13,13 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { 
   BookOpen, 
   Users, 
-  Trophy, 
-  Crown,
-  Check,
-  Shield,
-  Zap,
-  Clock,
-  Star
+  Trophy
 } from 'lucide-react';
 
 
@@ -69,8 +64,8 @@ const Index = () => {
       {/* Hero Section */}
       <Hero 
         title="Bienvenue sur KivaïaKids !"
-        subtitle="Une plateforme éducative simple et efficace pour apprendre les langues"
-        ctaLabel="Rejoindre maintenant"
+        subtitle={"« Le plaisir de découvrir, le pouvoir de parler »\n\nKivaia Kids ouvre la porte des langues et des cultures aux enfants, accompagnés avec\nconfiance par les parents et les professionnels.\n\nApprendre devient un voyage : on joue, on chante, on rit… et on parle autrement."}
+        ctaLabel="Inscrivez-vous et lancez l’aventure"
       />
 
       {/* Features Section */}
@@ -149,6 +144,51 @@ const Index = () => {
         </div>
       </section>
 
+      {/* À qui ça s’adresse ? */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div className="order-2 lg:order-1">
+              <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">
+                À qui ça s’adresse ?
+              </h2>
+              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                Pour les enfants… et pour ceux qui les accompagnent.
+              </h3>
+              <div className="space-y-3 text-gray-700 text-lg leading-relaxed">
+                <p>
+                  <span className="font-semibold">Pour les enfants</span> : un monde de jeux, chansons, histoires et découvertes.
+                </p>
+                <p>
+                  <span className="font-semibold">Pour les parents, enseignants, animateurs et assistants maternels</span> : des ressources simples, ludiques et prêtes à l’emploi.
+                </p>
+              </div>
+            </div>
+            <div className="order-1 lg:order-2">
+              <div className="aspect-video rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-emerald-100 via-teal-100 to-green-100 flex items-center justify-center">
+                <img
+                  src="/children1.jpg"
+                  alt="Enfants apprenant les langues"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Témoignages et valeurs sociales */}
+      <section className="py-20 bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6">Témoignages et valeurs sociales</h2>
+          <div className="bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-2xl p-8 shadow-lg">
+            <p className="text-gray-800 text-xl leading-relaxed">
+              Chez Kivaia Kids, nous croyons que parler plusieurs langues, c’est un trésor. Ensemble, parents, enseignants et animateurs accompagnent les enfants dans cette aventure.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Courses Preview Section */}
       <section className="py-24 bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100 relative overflow-hidden">
         {/* Subtle background elements */}
@@ -212,163 +252,73 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Section Premium Attractive */}
-      <section className="py-20 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-yellow-200 to-orange-300 rounded-full opacity-20 animate-pulse"></div>
-          <div className="absolute bottom-10 right-10 w-40 h-40 bg-gradient-to-br from-red-200 to-pink-300 rounded-full opacity-20 animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-br from-orange-200 to-yellow-300 rounded-full opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
-        </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* FAQ Section */}
+      <section className="py-20 bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full mb-8 shadow-2xl">
-              <Crown className="h-12 w-12 text-white" />
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold text-orange-800 mb-6">
-              Débloque tout le contenu Premium ! 🚀
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              FAQ – Foire aux questions
             </h2>
-            
-            <p className="text-xl text-orange-600 max-w-4xl mx-auto mb-8">
-              Accède à tous nos cours exclusifs, exercices avancés et support prioritaire pour accélérer ton apprentissage des langues
-            </p>
+            <div className="w-24 h-1 bg-gradient-to-r from-emerald-400 to-teal-400 mx-auto rounded-full"></div>
+          </div>
 
-            {/* Pricing Cards */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
-              {/* Plan Mensuel */}
-              <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-xl border-2 border-orange-200 hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                <div className="text-center mb-6">
-                  <Badge className="bg-orange-100 text-orange-700 border-orange-200 mb-4">
-                    <Clock className="h-3 w-3 mr-1" />
-                    Mensuel
-                  </Badge>
-                  <div className="text-4xl font-bold text-orange-800 mb-2">
-                    9,90€
-                  </div>
-                  <div className="text-orange-600">par mois</div>
-                </div>
-                
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-center space-x-3">
-                    <Check className="h-5 w-5 text-green-600" />
-                    <span className="text-gray-700">Accès à tous les cours premium</span>
-                  </li>
-                  <li className="flex items-center space-x-3">
-                    <Check className="h-5 w-5 text-green-600" />
-                    <span className="text-gray-700">Support prioritaire</span>
-                  </li>
-                  <li className="flex items-center space-x-3">
-                    <Check className="h-5 w-5 text-green-600" />
-                    <span className="text-gray-700">Contenu exclusif</span>
-                  </li>
-                </ul>
-                
-                <Button
-                  onClick={() => navigate('/premium')}
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  <Star className="h-5 w-5 mr-2" />
-                  Commencer maintenant
-                </Button>
-              </div>
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1" className="border-b border-gray-100">
+                <AccordionTrigger className="text-left px-8 py-6 text-lg font-semibold text-gray-900 hover:text-emerald-600 transition-colors">
+                  Mon enfant ne parle qu'une seule langue, est-ce adapté ?
+                </AccordionTrigger>
+                <AccordionContent className="px-8 pb-6 text-gray-700 leading-relaxed">
+                  Oui, tout à fait. Kivaia Kids est pensé pour initier les enfants à d'autres langues dès le plus jeune âge, de façon intuitive, ludique et naturelle — sans pression, et à leur rythme.
+                </AccordionContent>
+              </AccordionItem>
 
-              {/* Plan Annuel - Featured */}
-              <div className="bg-gradient-to-br from-yellow-400 to-orange-500 text-white rounded-2xl p-8 shadow-2xl border-0 relative hover:shadow-3xl transition-all duration-300 hover:scale-105">
-                {/* Popular Badge */}
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <Badge className="bg-white text-orange-600 font-bold px-4 py-2 border-0 shadow-lg">
-                    <Star className="h-3 w-3 mr-1" />
-                    POPULAIRE
-                  </Badge>
-                </div>
-                
-                <div className="text-center mb-6 pt-4">
-                  <div className="text-4xl font-bold text-white mb-2">
-                    99€
-                  </div>
-                  <div className="text-yellow-100 text-lg">par an</div>
-                  <div className="bg-white/20 rounded-lg p-3 mt-4">
-                    <p className="text-yellow-100 text-sm font-medium">
-                      Économisez 19,80€ par an !
-                    </p>
-                  </div>
-                </div>
-                
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-center space-x-3">
-                    <Check className="h-5 w-5 text-yellow-200" />
-                    <span className="text-white">Tout du plan mensuel</span>
-                  </li>
-                  <li className="flex items-center space-x-3">
-                    <Check className="h-5 w-5 text-yellow-200" />
-                    <span className="text-white">2 mois gratuits</span>
-                  </li>
-                  <li className="flex items-center space-x-3">
-                    <Check className="h-5 w-5 text-yellow-200" />
-                    <span className="text-white">Support VIP</span>
-                  </li>
-                </ul>
-                
-                <Button
-                  onClick={() => navigate('/premium')}
-                  className="w-full bg-white text-orange-600 hover:bg-gray-100 font-bold py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  <Crown className="h-5 w-5 mr-2" />
-                  Choisir l'offre annuelle
-                </Button>
-              </div>
-            </div>
+              <AccordionItem value="item-2" className="border-b border-gray-100">
+                <AccordionTrigger className="text-left px-8 py-6 text-lg font-semibold text-gray-900 hover:text-emerald-600 transition-colors">
+                  Faut-il que je parle plusieurs langues pour utiliser Kivaia Kids avec mon enfant ?
+                </AccordionTrigger>
+                <AccordionContent className="px-8 pb-6 text-gray-700 leading-relaxed">
+                  Non ! Les contenus sont accessibles à tous, même sans connaissance linguistique particulière. Les jeux, sons, images et vidéos sont conçus pour être autoportants et faciles à suivre.
+                </AccordionContent>
+              </AccordionItem>
 
-            {/* Trust Indicators */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-3xl mx-auto">
-              <div className="text-center">
-                <div className="bg-white/60 backdrop-blur-sm rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <Shield className="h-8 w-8 text-orange-600" />
-                </div>
-                <h4 className="font-semibold text-orange-800 mb-2">Paiement sécurisé</h4>
-                <p className="text-orange-600 text-sm">
-                  Stripe garantit la sécurité
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="bg-white/60 backdrop-blur-sm rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <Users className="h-8 w-8 text-orange-600" />
-                </div>
-                <h4 className="font-semibold text-orange-800 mb-2">Support dédié</h4>
-                <p className="text-orange-600 text-sm">
-                  Une équipe à l'écoute
-                </p>
-              </div>
-              
-              <div className="text-center">
-                <div className="bg-white/60 backdrop-blur-sm rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <Zap className="h-8 w-8 text-orange-600" />
-                </div>
-                <h4 className="font-semibold text-orange-800 mb-2">Contenu frais</h4>
-                <p className="text-orange-600 text-sm">
-                  Nouveaux cours régulièrement
-                </p>
-              </div>
-            </div>
+              <AccordionItem value="item-3" className="border-b border-gray-100">
+                <AccordionTrigger className="text-left px-8 py-6 text-lg font-semibold text-gray-900 hover:text-emerald-600 transition-colors">
+                  Kivaia Kids est-il un site gratuit ?
+                </AccordionTrigger>
+                <AccordionContent className="px-8 pb-6 text-gray-700 leading-relaxed">
+                  Kivaya propose des contenus gratuits pour vous permettre de découvrir l'univers. L'accès complet à la plateforme est réservé aux abonnés, afin de garantir des contenus de qualité, sans publicité, et sécurisés pour les enfants.
+                </AccordionContent>
+              </AccordionItem>
 
-            {/* CTA Final */}
-            <div className="mt-12">
-              <Button
-                onClick={() => navigate('/premium')}
-                size="lg"
-                className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-bold px-12 py-6 text-xl shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105"
-              >
-                <Crown className="h-6 w-6 mr-3" />
-                Débloquer Premium maintenant !
-              </Button>
-              
-              <p className="text-orange-600 mt-4 text-sm">
-                Rejoins des milliers d'apprenants qui ont déjà fait le choix du Premium
-              </p>
-            </div>
+              <AccordionItem value="item-4" className="border-b border-gray-100">
+                <AccordionTrigger className="text-left px-8 py-6 text-lg font-semibold text-gray-900 hover:text-emerald-600 transition-colors">
+                  Quelles langues trouve-t-on sur Kivaia Kids ?
+                </AccordionTrigger>
+                <AccordionContent className="px-8 pb-6 text-gray-700 leading-relaxed">
+                  Nous proposons une initiation à plusieurs langues du monde : français, anglais, espagnol, japonais, allemand, italien, arabe, portugais, Chinois, danois, néerlandais, wolof, Russe, turque, Coréen, et d'autres à venir. Chaque langue est introduite avec douceur, sonorité et immersion culturelle.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-5" className="border-b border-gray-100">
+                <AccordionTrigger className="text-left px-8 py-6 text-lg font-semibold text-gray-900 hover:text-emerald-600 transition-colors">
+                  Combien de temps faut-il pour voir des résultats ?
+                </AccordionTrigger>
+                <AccordionContent className="px-8 pb-6 text-gray-700 leading-relaxed">
+                  Chaque enfant apprend à son rythme. L'essentiel, c'est de créer un rendez-vous régulier, joyeux et interactif. Les résultats ne se mesurent pas seulement en mots, mais aussi en ouverture, attention, écoute, et curiosité.
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-6">
+                <AccordionTrigger className="text-left px-8 py-6 text-lg font-semibold text-gray-900 hover:text-emerald-600 transition-colors">
+                  Peut-on utiliser Kivaia Kids à la maison ou en centre d'animation ?
+                </AccordionTrigger>
+                <AccordionContent className="px-8 pb-6 text-gray-700 leading-relaxed">
+                  Kivaia Kids est une ressource idéale pour les parents, les enseignants, les animateurs, les médiathèques, les centres éducatifs, les crèches, etc.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </div>
         </div>
       </section>

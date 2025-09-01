@@ -80,7 +80,16 @@ const Layout = ({ children }: LayoutProps) => {
                 location.pathname === '/courses' && "underline decoration-white/70 underline-offset-8"
               )}
             >
-              Cours
+              Apprendre une langue
+            </button>
+            <button
+              onClick={() => navigate('/pricing')}
+              className={cn(
+                "text-sm lg:text-base font-medium text-white/90 hover:text-white transition-colors",
+                location.pathname === '/pricing' && "underline decoration-white/70 underline-offset-8"
+              )}
+            >
+              Nos Offres
             </button>
           </nav>
 
@@ -184,7 +193,14 @@ const Layout = ({ children }: LayoutProps) => {
                       onClick={() => handleNavigation('/courses')}
                       className="text-lg font-semibold px-4 py-4 rounded-lg hover:bg-green-50 text-left text-gray-800 transition-all duration-200 border border-gray-100 hover:border-green-300 hover:shadow-sm bg-white"
                     >
-                      Cours
+                      Apprendre une langue
+                    </button>
+                    
+                    <button
+                      onClick={() => handleNavigation('/pricing')}
+                      className="text-lg font-semibold px-4 py-4 rounded-lg hover:bg-green-50 text-left text-gray-800 transition-all duration-200 border border-gray-100 hover:border-green-300 hover:shadow-sm bg-white"
+                    >
+                      Nos Offres
                     </button>
 
                     {user ? (
@@ -250,22 +266,26 @@ const Layout = ({ children }: LayoutProps) => {
 
       {/* Footer */}
       <footer className="bg-muted mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="border-t border-gray-200 pt-6">
-            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <div className="text-muted-foreground">
-                <p>&copy; 2025 KivaïaKids. Apprendre les langues facilement.</p>
-              </div>
-              
-              <div className="flex space-x-6">
-                <button
-                  onClick={() => navigate('/terms')}
-                  className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
-                >
-                  Conditions d'utilisation
-                </button>
-              </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+            <div className="flex items-center justify-center md:justify-start space-x-3">
+              <img src="/logoWithTitle_page-0001.png" alt="Kivaia Kids" className="h-12 w-auto" />
             </div>
+            <p className="text-center text-sm md:text-base text-gray-700 font-medium">
+              “Kivaia Kids, chaque mot devient une aventure, chaque son une porte ouverte sur le monde”
+            </p>
+            <div className="flex justify-center md:justify-end space-x-6">
+              <a href="mailto:contact@kivaiakids.fr" className="text-sm text-blue-600 hover:text-blue-800 transition-colors">Contact</a>
+              <button
+                onClick={() => navigate('/terms')}
+                className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
+              >
+                Conditions d'utilisation
+              </button>
+            </div>
+          </div>
+          <div className="mt-8 border-t border-gray-200 pt-6 text-center text-muted-foreground">
+            <p>&copy; 2025 KivaïaKids</p>
           </div>
         </div>
       </footer>
