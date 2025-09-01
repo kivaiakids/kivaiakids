@@ -25,6 +25,7 @@ import {
 import { upsertEveilItem, getEveilItemById } from '@/integrations/supabase/eveil-helpers';
 import { EveilItem, MediaItem, EVEIL_SECTIONS } from '@/integrations/supabase/types-eveil';
 import { useToast } from '@/hooks/use-toast';
+import PDFUpload from '@/components/Eveil/PDFUpload';
 
 const CreateEveil = () => {
   const { user, isAdmin } = useAuth();
@@ -42,7 +43,8 @@ const CreateEveil = () => {
     tags: [] as string[],
     is_premium: false,
     is_published: false,
-    order_index: 0
+    order_index: 0,
+    pdf_files: [] as any[] // Added pdf_files to formData
   });
 
   const [tagInput, setTagInput] = useState('');
@@ -74,7 +76,8 @@ const CreateEveil = () => {
               tags: item.tags || [],
               is_premium: item.is_premium,
               is_published: item.is_published,
-              order_index: item.order_index
+              order_index: item.order_index,
+              pdf_files: item.pdf_files || [] // Load pdf_files
             });
           }
         } catch (error) {
@@ -362,7 +365,6 @@ const CreateEveil = () => {
                                   <SelectItem value="image">Image</SelectItem>
                                   <SelectItem value="audio">Audio</SelectItem>
                                   <SelectItem value="video">Vidéo</SelectItem>
-                                  <SelectItem value="pdf">PDF</SelectItem>
                                 </SelectContent>
                               </Select>
                             </div>
@@ -401,6 +403,24 @@ const CreateEveil = () => {
                     })}
                   </div>
                 )}
+              </CardContent>
+            </Card>
+
+            {/* PDFs */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="w-5 h-5" />
+                  Documents PDF
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <PDFUpload
+                  itemId={id || 'new'}
+                  pdfFiles={formData.pdf_files}
+                  onPDFsChange={(pdfs) => handleInputChange('pdf_files', pdfs)}
+                  isPremium={formData.is_premium}
+                />
               </CardContent>
             </Card>
 

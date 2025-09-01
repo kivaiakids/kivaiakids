@@ -20,6 +20,7 @@ import { getEveilItemBySlug } from '@/integrations/supabase/eveil-helpers';
 import { EveilItem, MediaItem, EVEIL_SECTIONS } from '@/integrations/supabase/types-eveil';
 import { useAuth } from '@/contexts/AuthContext';
 import MediaBadge from '@/components/Eveil/MediaBadge';
+import PDFList from '@/components/Eveil/PDFList';
 
 const EveilDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -308,6 +309,18 @@ const EveilDetail = () => {
                       );
                     })}
                   </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* PDFs */}
+            {item.pdf_files && item.pdf_files.length > 0 && (
+              <Card>
+                <CardContent className="p-6">
+                  <PDFList 
+                    pdfFiles={item.pdf_files} 
+                    itemTitle={item.title}
+                  />
                 </CardContent>
               </Card>
             )}

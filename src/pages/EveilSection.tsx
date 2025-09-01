@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import CardEveil from '@/components/Eveil/CardEveil';
 import EveilSkeleton from '@/components/Eveil/EveilSkeleton';
+import TagFilter from '@/components/Eveil/TagFilter';
 import { getEveilItemsBySection } from '@/integrations/supabase/eveil-helpers';
 import { EveilItem, EveilSection, EVEIL_SECTIONS } from '@/integrations/supabase/types-eveil';
 import { Button } from '@/components/ui/button';
@@ -14,8 +15,10 @@ const EveilSection = () => {
   const { section: sectionSlug } = useParams<{ section: string }>();
   const navigate = useNavigate();
   const [items, setItems] = useState<EveilItem[]>([]);
+  const [filteredItems, setFilteredItems] = useState<EveilItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   // Trouver la section correspondante
   const sectionInfo = EVEIL_SECTIONS.find(s => s.slug === sectionSlug);
@@ -35,6 +38,29 @@ const EveilSection = () => {
       </Layout>
     );
   }
+
+  // Extraire tous les tags disponibles
+  const availableTags = React.useMemo(() => {
+    const tags = new Set<string>();
+    items.forEach(item => {
+      if (item.tags) {
+        item.tags.forEach(tag => tags.add(tag));
+      }
+    });
+    return Array.from(tags).sort();
+  }, [items]);
+
+  // Filtrer les items selon les tags sélectionnés
+  useEffect(() => {
+    if (selectedTags.length === 0) {
+      setFilteredItems(items);
+    } else {
+      const filtered = items.filter(item => 
+        item.tags && item.tags.some(tag => selectedTags.includes(tag))
+      );
+      setFilteredItems(filtered);
+    }
+  }, [items, selectedTags]);
 
   useEffect(() => {
     const loadItems = async () => {
@@ -123,22 +149,59 @@ const EveilSection = () => {
               </div>
             ) : (
               <>
+                {/* Filtre par tags */}
+                {availableTags.length > 0 && (
+                  <div className="mb-8">
+                    <TagFilter
+                      availableTags={availableTags}
+                      selectedTags={selectedTags}
+                      onTagsChange={setSelectedTags}
+                      title={`Filtrer par tags - ${sectionInfo.title}`}
+                    />
+                  </div>
+                )}
+
                 {/* Stats */}
                 <div className="mb-8 text-center">
                   <p className="text-gray-600">
-                    {items.length} activité{items.length > 1 ? 's' : ''} disponible{items.length > 1 ? 's' : ''}
+                    {filteredItems.length} activité{filteredItems.length > 1 ? 's' : ''} disponible{filteredItems.length > 1 ? 's' : ''}
+                    {selectedTags.length > 0 && (
+                      <span className="text-emerald-600 font-medium">
+                        {' '}avec les tags sélectionnés
+                      </span>
+                    )}
                   </p>
                 </div>
 
                 {/* Items Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {items.map((item) => (
+                  {filteredItems.map((item) => (
                     <CardEveil
                       key={item.id}
                       item={item}
                     />
                   ))}
                 </div>
+
+                {/* Message si aucun résultat */}
+                {filteredItems.length === 0 && selectedTags.length > 0 && (
+                  <div className="text-center py-12">
+                    <div className="text-4xl mb-4">🔍</div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      Aucune activité trouvée
+                    </h3>
+                    <p className="text-gray-600 mb-4">
+                      Aucune activité ne correspond aux tags sélectionnés.
+                    </p>
+                    <Button 
+                      onClick={() => setSelectedTags([])}
+                      variant="outline"
+                      className="text-emerald-600 border-emerald-200 hover:bg-emerald-50"
+                    >
+                      Effacer les filtres
+                    </Button>
+                  </div>
+                )}
               </>
             )}
           </div>

@@ -1,5 +1,5 @@
 import { supabase } from './client';
-import { EveilItem, EveilSection } from './types-eveil';
+import { EveilItem, EveilSection, PDFFile } from './types-eveil';
 
 export interface GetEveilItemsOptions {
   includeUnpublished?: boolean;
@@ -191,4 +191,136 @@ export async function getAllEveilItems(): Promise<EveilItem[]> {
   }
 
   return data || [];
+}
+
+/**
+ * Upload un fichier PDF pour un item d'éveil
+ */
+export async function uploadEveilPDF(
+  itemId: string,
+  file: File,
+  isPremium: boolean = false
+): Promise<PDFFile> {
+  try {
+    // Vérifier que le bucket existe
+    const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
+    if (bucketsError) {
+      throw new Error(`Erreur lors de la récupération des buckets: ${bucketsError.message}`);
+    }
+
+    const bucket = buckets?.find(b => b.name === 'eveil-pdfs');
+    if (!bucket) {
+      throw new Error('Bucket eveil-pdfs non trouvé. Veuillez le créer dans Supabase Storage.');
+    }
+
+    // Générer un nom de fichier unique
+    const timestamp = Date.now();
+    const fileExtension = file.name.split('.').pop();
+    const filename = `${timestamp}_${itemId}.${fileExtension}`;
+    const folder = isPremium ? 'premium' : 'published';
+    const filePath = `${folder}/${itemId}/${filename}`;
+
+    // Upload du fichier
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from('eveil-pdfs')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (uploadError) {
+      throw new Error(`Erreur lors de l'upload: ${uploadError.message}`);
+    }
+
+    // Générer l'URL de téléchargement
+    const { data: urlData } = supabase.storage
+      .from('eveil-pdfs')
+      .getPublicUrl(filePath);
+
+    // Créer l'objet PDFFile
+    const pdfFile: PDFFile = {
+      id: crypto.randomUUID(),
+      filename: filename,
+      original_name: file.name,
+      size: file.size,
+      url: urlData.publicUrl,
+      uploaded_at: new Date().toISOString(),
+      is_premium: isPremium
+    };
+
+    return pdfFile;
+  } catch (error) {
+    console.error('Erreur lors de l\'upload du PDF:', error);
+    throw error;
+  }
+}
+
+/**
+ * Supprime un fichier PDF d'un item d'éveil
+ */
+export async function deleteEveilPDF(
+  itemId: string,
+  filename: string
+): Promise<void> {
+  try {
+    // Supprimer le fichier du storage
+    const { error: deleteError } = await supabase.storage
+      .from('eveil-pdfs')
+      .remove([`premium/${itemId}/${filename}`, `published/${itemId}/${filename}`]);
+
+    if (deleteError) {
+      console.warn('Avertissement lors de la suppression du fichier:', deleteError.message);
+    }
+  } catch (error) {
+    console.error('Erreur lors de la suppression du PDF:', error);
+    throw error;
+  }
+}
+
+/**
+ * Met à jour la liste des PDFs d'un item d'éveil
+ */
+export async function updateEveilPDFFiles(
+  itemId: string,
+  pdfFiles: PDFFile[]
+): Promise<void> {
+  try {
+    const { error } = await supabase
+      .from('eveil_items')
+      .update({ 
+        pdf_files: pdfFiles,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', itemId);
+
+    if (error) {
+      throw new Error(`Erreur lors de la mise à jour des PDFs: ${error.message}`);
+    }
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour des PDFs:', error);
+    throw error;
+  }
+}
+
+/**
+ * Récupère l'URL de téléchargement d'un PDF
+ */
+export async function getEveilPDFDownloadUrl(
+  itemId: string,
+  filename: string,
+  isPremium: boolean = false
+): Promise<string | null> {
+  try {
+    const folder = isPremium ? 'premium' : 'published';
+    const filePath = `${folder}/${itemId}/${filename}`;
+
+    const { data } = supabase.storage
+      .from('eveil-pdfs')
+      .getPublicUrl(filePath);
+
+    return data.publicUrl;
+  } catch (error) {
+    console.error('Erreur lors de la récupération de l\'URL du PDF:', error);
+    return null;
+  }
 }

@@ -23,6 +23,7 @@ export interface EveilItem {
   title: string;
   subtitle?: string;
   media: MediaItem[];
+  pdf_files: PDFFile[];
   tags?: string[];
   is_premium: boolean;
   is_published: boolean;
@@ -30,6 +31,16 @@ export interface EveilItem {
   author_id?: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface PDFFile {
+  id: string;
+  filename: string;
+  original_name: string;
+  size: number;
+  url: string;
+  uploaded_at: string;
+  is_premium: boolean;
 }
 
 export interface EveilSectionInfo {
