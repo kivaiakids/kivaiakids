@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -14,6 +15,8 @@ import {
 } from 'lucide-react';
 
 const About = () => {
+  const navigate = useNavigate();
+  
   return (
     <Layout>
       <Helmet>
@@ -215,7 +218,7 @@ const About = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
-                onClick={() => window.location.href = '/eveil-aux-langues'}
+                onClick={() => navigate('/eveil-aux-langues')}
                 size="lg"
                 className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-8"
               >
@@ -224,7 +227,7 @@ const About = () => {
               </Button>
               
               <Button 
-                onClick={() => window.location.href = '/pricing'}
+                onClick={() => navigate('/pricing')}
                 variant="outline"
                 size="lg"
                 className="border-emerald-600 text-emerald-600 hover:bg-emerald-50 px-8"

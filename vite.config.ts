@@ -32,15 +32,23 @@ export default defineConfig(({ mode }) => ({
     assetsDir: 'assets',
     sourcemap: false,
     cssCodeSplit: true,
+    minify: 'esbuild',
     rollupOptions: {
       output: {
         // Ensure clean asset paths
         assetFileNames: 'assets/[name]-[hash][extname]',
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',
+        // Ensure proper handling of public assets
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+        },
       },
     },
     // Clean dist folder before build
     emptyOutDir: true,
+    // Ensure public assets are copied correctly
+    copyPublicDir: true,
   },
 }));
