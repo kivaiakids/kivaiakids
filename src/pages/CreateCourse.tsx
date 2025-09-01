@@ -12,6 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import Layout from '@/components/Layout';
+import { AgeRange } from '@/integrations/supabase/types';
 import { 
   ArrowLeft,
   Plus,
@@ -45,6 +46,7 @@ const CreateCourse = () => {
     title: '',
     description: '',
     category: '',
+    age_range: 'up_to_12_years' as AgeRange,
     is_premium: false,
     file_url: '',
     video_url: '',
@@ -387,18 +389,26 @@ const CreateCourse = () => {
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    value={formData.description}
-                    onChange={(e) => handleInputChange('description', e.target.value)}
-                    placeholder="Description courte du cours..."
-                    rows={3}
-                  />
-                </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="age_range">Tranche d'âge *</Label>
+                    <Select 
+                      value={formData.age_range} 
+                      onValueChange={(value) => handleInputChange('age_range', value as AgeRange)}
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Sélectionner une tranche d'âge" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="12-18_months">12 mois à 18 mois</SelectItem>
+                        <SelectItem value="2_years">2 ans</SelectItem>
+                        <SelectItem value="3_years">3 ans</SelectItem>
+                        <SelectItem value="up_to_12_years">Jusqu'à 12 ans</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="duration">Durée (minutes)</Label>
                     <Select value={formData.duration_minutes.toString()} onValueChange={(value) => handleInputChange('duration_minutes', parseInt(value))}>
@@ -414,8 +424,20 @@ const CreateCourse = () => {
                       </SelectContent>
                     </Select>
                   </div>
+                </div>
 
-                  <div className="flex items-center justify-between space-x-4">
+                <div className="space-y-2">
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea
+                    id="description"
+                    value={formData.description}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    placeholder="Description courte du cours..."
+                    rows={3}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between space-x-4">
                     <div className="space-y-2">
                       <Label>Cours premium</Label>
                       <div className="text-sm text-gray-600">Ce cours nécessite un abonnement</div>
@@ -425,7 +447,6 @@ const CreateCourse = () => {
                       onCheckedChange={(checked) => handleInputChange('is_premium', checked)}
                     />
                   </div>
-                </div>
               </CardContent>
             </Card>
 

@@ -9,13 +9,15 @@ import { supabase } from '@/integrations/supabase/client';
 import Layout from '@/components/Layout';
 import CourseCard from '@/components/ui/course-card';
 import CourseCardSkeleton from '@/components/ui/course-card-skeleton';
+import { AgeRange } from '@/integrations/supabase/types';
 import { 
   BookOpen, 
   Search,
-  Filter
+  Filter,
+  Baby,
+  Users,
+  GraduationCap
 } from 'lucide-react';
-
-
 
 const Courses = () => {
   const { user, loading } = useAuth();
@@ -24,10 +26,19 @@ const Courses = () => {
   const [coursesLoading, setCoursesLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedAgeRanges, setSelectedAgeRanges] = useState<AgeRange[]>([]);
   const [filteredCourses, setFilteredCourses] = useState<any[]>([]);
   const [availableCategories, setAvailableCategories] = useState<string[]>([]);
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Options de tranches d'âge avec icônes mignonnes
+  const ageRangeOptions: { value: AgeRange; label: string; icon: React.ReactNode; emoji: string }[] = [
+    { value: '12-18_months', label: '12-18 mois', icon: <Baby className="w-4 h-4" />, emoji: '👶' },
+    { value: '2_years', label: '2 ans', icon: <Baby className="w-4 h-4" />, emoji: '🧸' },
+    { value: '3_years', label: '3 ans', icon: <GraduationCap className="w-4 h-4" />, emoji: '🎨' },
+    { value: 'up_to_12_years', label: 'Jusqu\'à 12 ans', icon: <Users className="w-4 h-4" />, emoji: '🌟' }
+  ];
 
   useEffect(() => {
     fetchCourses();
@@ -35,7 +46,7 @@ const Courses = () => {
 
   useEffect(() => {
     filterCourses();
-  }, [courses, searchTerm, selectedCategory]);
+  }, [courses, searchTerm, selectedCategory, selectedAgeRanges]);
 
   const fetchCourses = async () => {
     try {
@@ -66,6 +77,13 @@ const Courses = () => {
       filtered = filtered.filter(course => course.category === selectedCategory);
     }
 
+    // Filter by age ranges
+    if (selectedAgeRanges.length > 0) {
+      filtered = filtered.filter(course => 
+        selectedAgeRanges.includes(course.age_range)
+      );
+    }
+
     // Filter by search term
     if (searchTerm) {
       filtered = filtered.filter(course =>
@@ -76,6 +94,22 @@ const Courses = () => {
 
     setFilteredCourses(filtered);
   };
+
+  const handleAgeRangeToggle = (ageRange: AgeRange) => {
+    setSelectedAgeRanges(prev => 
+      prev.includes(ageRange)
+        ? prev.filter(ar => ar !== ageRange)
+        : [...prev, ageRange]
+    );
+  };
+
+  const clearAllFilters = () => {
+    setSelectedCategory('all');
+    setSelectedAgeRanges([]);
+    setSearchTerm('');
+  };
+
+  const hasActiveFilters = selectedCategory !== 'all' || selectedAgeRanges.length > 0 || searchTerm;
 
   if (loading) {
     return (
@@ -115,11 +149,51 @@ const Courses = () => {
                 />
               </div>
 
+              {/* Clear filters button */}
+              {hasActiveFilters && (
+                <Button
+                  onClick={clearAllFilters}
+                  variant="outline"
+                  size="sm"
+                  className="text-gray-600 border-gray-300 hover:bg-gray-50"
+                >
+                  Effacer les filtres
+                </Button>
+              )}
+            </div>
 
+            {/* Age Range Filter - Design mignon et intuitif */}
+            <div className="mt-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Filter className="w-4 h-4 text-blue-500" />
+                <span className="text-sm font-medium text-gray-700">Filtrer par âge</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {ageRangeOptions.map((option) => {
+                  const isSelected = selectedAgeRanges.includes(option.value);
+                  return (
+                    <button
+                      key={option.value}
+                      onClick={() => handleAgeRangeToggle(option.value)}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                        isSelected
+                          ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md scale-105'
+                          : 'bg-gray-100 text-gray-600 hover:bg-blue-100 hover:text-blue-700 hover:scale-105'
+                      }`}
+                    >
+                      <span className="text-base">{option.emoji}</span>
+                      <span>{option.label}</span>
+                      {isSelected && (
+                        <span className="ml-1 text-blue-100">✓</span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Category Pills */}
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-6 flex flex-wrap gap-2">
               <Badge
                 variant={selectedCategory === 'all' ? 'default' : 'secondary'}
                 className={`cursor-pointer transition-all ${
@@ -156,6 +230,11 @@ const Courses = () => {
             <p className="text-gray-700">
               {filteredCourses.length} cours trouvé{filteredCourses.length > 1 ? 's' : ''}
               {selectedCategory !== 'all' && ` dans ${selectedCategory}`}
+              {selectedAgeRanges.length > 0 && (
+                <span className="text-blue-600 font-medium">
+                  {' '}pour les âges sélectionnés
+                </span>
+              )}
             </p>
           </div>
 
@@ -186,15 +265,17 @@ const Courses = () => {
               <BookOpen className="h-16 w-16 text-green-400 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-green-800 mb-2">Aucun cours trouvé</h3>
               <p className="text-green-600 mb-4">
-                {searchTerm ? `Aucun cours ne correspond à "${searchTerm}"` : 'Aucun cours disponible dans cette catégorie'}
+                {searchTerm ? `Aucun cours ne correspond à "${searchTerm}"` : 
+                 selectedAgeRanges.length > 0 ? 'Aucun cours ne correspond aux âges sélectionnés' :
+                 'Aucun cours disponible dans cette catégorie'}
               </p>
-              {searchTerm && (
+              {hasActiveFilters && (
                 <Button
-                  onClick={() => setSearchTerm('')}
+                  onClick={clearAllFilters}
                   variant="outline"
                   className="border-green-300 text-green-700 hover:bg-green-50"
                 >
-                  Effacer la recherche
+                  Effacer tous les filtres
                 </Button>
               )}
             </div>

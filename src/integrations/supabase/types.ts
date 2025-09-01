@@ -372,3 +372,21 @@ export const Constants = {
     },
   },
 } as const
+
+export type AgeRange = '12-18_months' | '2_years' | '3_years' | 'up_to_12_years';
+
+export interface Course {
+  id: string;
+  title: string;
+  description: string;
+  content: string;
+  category: string;
+  level: string;
+  age_range: AgeRange;
+  is_premium: boolean;
+  is_published: boolean;
+  order_index: number;
+  author_id?: string;
+  created_at: string;
+  updated_at: string;
+}

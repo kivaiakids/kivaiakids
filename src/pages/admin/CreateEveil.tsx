@@ -23,7 +23,7 @@ import {
   Video
 } from 'lucide-react';
 import { upsertEveilItem, getEveilItemById } from '@/integrations/supabase/eveil-helpers';
-import { EveilItem, MediaItem, EVEIL_SECTIONS } from '@/integrations/supabase/types-eveil';
+import { EveilItem, MediaItem, EVEIL_SECTIONS, AgeRange } from '@/integrations/supabase/types-eveil';
 import { useToast } from '@/hooks/use-toast';
 import PDFUpload from '@/components/Eveil/PDFUpload';
 
@@ -41,6 +41,7 @@ const CreateEveil = () => {
     slug: '',
     media: [] as MediaItem[],
     tags: [] as string[],
+    age_range: 'up_to_12_years' as AgeRange,
     is_premium: false,
     is_published: false,
     order_index: 0,
@@ -74,6 +75,7 @@ const CreateEveil = () => {
               slug: item.slug,
               media: item.media,
               tags: item.tags || [],
+              age_range: item.age_range as AgeRange,
               is_premium: item.is_premium,
               is_published: item.is_published,
               order_index: item.order_index,
@@ -272,13 +274,22 @@ const CreateEveil = () => {
                   </div>
 
                   <div>
-                    <Label htmlFor="order_index">Ordre d'affichage</Label>
-                    <Input
-                      id="order_index"
-                      type="number"
-                      value={formData.order_index}
-                      onChange={(e) => handleInputChange('order_index', parseInt(e.target.value) || 0)}
-                    />
+                    <Label htmlFor="age_range">Tranche d'âge *</Label>
+                    <Select
+                      value={formData.age_range}
+                      onValueChange={(value) => handleInputChange('age_range', value as AgeRange)}
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Sélectionner une tranche d'âge" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="12-18_months">12 mois à 18 mois</SelectItem>
+                        <SelectItem value="2_years">2 ans</SelectItem>
+                        <SelectItem value="3_years">3 ans</SelectItem>
+                        <SelectItem value="up_to_12_years">Jusqu'à 12 ans</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 

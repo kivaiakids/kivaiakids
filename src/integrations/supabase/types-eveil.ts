@@ -25,6 +25,7 @@ export interface EveilItem {
   media: MediaItem[];
   pdf_files: PDFFile[];
   tags?: string[];
+  age_range: AgeRange;
   is_premium: boolean;
   is_published: boolean;
   order_index: number;
@@ -103,3 +104,5 @@ export const EVEIL_SECTIONS: EveilSectionInfo[] = [
     href: '/eveil-aux-langues/histoires-du-monde'
   }
 ];
+
+export type AgeRange = '12-18_months' | '2_years' | '3_years' | 'up_to_12_years';

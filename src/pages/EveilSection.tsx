@@ -5,8 +5,9 @@ import Layout from '@/components/Layout';
 import CardEveil from '@/components/Eveil/CardEveil';
 import EveilSkeleton from '@/components/Eveil/EveilSkeleton';
 import TagFilter from '@/components/Eveil/TagFilter';
+import AgeRangeFilter from '@/components/ui/AgeRangeFilter';
 import { getEveilItemsBySection } from '@/integrations/supabase/eveil-helpers';
-import { EveilItem, EveilSection, EVEIL_SECTIONS } from '@/integrations/supabase/types-eveil';
+import { EveilItem, EveilSection, EVEIL_SECTIONS, AgeRange } from '@/integrations/supabase/types-eveil';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +20,7 @@ const EveilSection = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedAgeRanges, setSelectedAgeRanges] = useState<AgeRange[]>([]);
 
   // Trouver la section correspondante
   const sectionInfo = EVEIL_SECTIONS.find(s => s.slug === sectionSlug);
@@ -50,17 +52,35 @@ const EveilSection = () => {
     return Array.from(tags).sort();
   }, [items]);
 
-  // Filtrer les items selon les tags sélectionnés
+  // Extraire toutes les tranches d'âge disponibles
+  const availableAgeRanges = React.useMemo(() => {
+    const ageRanges = new Set<AgeRange>();
+    items.forEach(item => {
+      ageRanges.add(item.age_range);
+    });
+    return Array.from(ageRanges).sort();
+  }, [items]);
+
+  // Filtrer les items selon les tags et tranches d'âge sélectionnés
   useEffect(() => {
-    if (selectedTags.length === 0) {
-      setFilteredItems(items);
-    } else {
-      const filtered = items.filter(item => 
+    let filtered = items;
+
+    // Filtrage par tags
+    if (selectedTags.length > 0) {
+      filtered = filtered.filter(item => 
         item.tags && item.tags.some(tag => selectedTags.includes(tag))
       );
-      setFilteredItems(filtered);
     }
-  }, [items, selectedTags]);
+
+    // Filtrage par tranches d'âge
+    if (selectedAgeRanges.length > 0) {
+      filtered = filtered.filter(item => 
+        selectedAgeRanges.includes(item.age_range)
+      );
+    }
+
+    setFilteredItems(filtered);
+  }, [items, selectedTags, selectedAgeRanges]);
 
   useEffect(() => {
     const loadItems = async () => {
@@ -149,25 +169,35 @@ const EveilSection = () => {
               </div>
             ) : (
               <>
-                {/* Filtre par tags */}
-                {availableTags.length > 0 && (
-                  <div className="mb-8">
+                {/* Filtres */}
+                <div className="mb-8 space-y-6">
+                  {/* Filtre par tranches d'âge */}
+                  {availableAgeRanges.length > 0 && (
+                    <AgeRangeFilter
+                      selectedAgeRanges={selectedAgeRanges}
+                      onAgeRangesChange={setSelectedAgeRanges}
+                      title={`Filtrer par âge - ${sectionInfo.title}`}
+                    />
+                  )}
+
+                  {/* Filtre par tags */}
+                  {availableTags.length > 0 && (
                     <TagFilter
                       availableTags={availableTags}
                       selectedTags={selectedTags}
                       onTagsChange={setSelectedTags}
                       title={`Filtrer par tags - ${sectionInfo.title}`}
                     />
-                  </div>
-                )}
+                  )}
+                </div>
 
                 {/* Stats */}
                 <div className="mb-8 text-center">
                   <p className="text-gray-600">
                     {filteredItems.length} activité{filteredItems.length > 1 ? 's' : ''} disponible{filteredItems.length > 1 ? 's' : ''}
-                    {selectedTags.length > 0 && (
+                    {(selectedTags.length > 0 || selectedAgeRanges.length > 0) && (
                       <span className="text-emerald-600 font-medium">
-                        {' '}avec les tags sélectionnés
+                        {' '}avec les filtres sélectionnés
                       </span>
                     )}
                   </p>
@@ -184,21 +214,24 @@ const EveilSection = () => {
                 </div>
 
                 {/* Message si aucun résultat */}
-                {filteredItems.length === 0 && selectedTags.length > 0 && (
+                {filteredItems.length === 0 && (selectedTags.length > 0 || selectedAgeRanges.length > 0) && (
                   <div className="text-center py-12">
                     <div className="text-4xl mb-4">🔍</div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">
                       Aucune activité trouvée
                     </h3>
                     <p className="text-gray-600 mb-4">
-                      Aucune activité ne correspond aux tags sélectionnés.
+                      Aucune activité ne correspond aux filtres sélectionnés.
                     </p>
                     <Button 
-                      onClick={() => setSelectedTags([])}
+                      onClick={() => {
+                        setSelectedTags([]);
+                        setSelectedAgeRanges([]);
+                      }}
                       variant="outline"
                       className="text-emerald-600 border-emerald-200 hover:bg-emerald-50"
                     >
-                      Effacer les filtres
+                      Effacer tous les filtres
                     </Button>
                   </div>
                 )}
