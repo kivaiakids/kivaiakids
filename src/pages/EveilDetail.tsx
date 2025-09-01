@@ -271,40 +271,50 @@ const EveilDetail = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid gap-4">
+                  <div className="space-y-4">
                     {item.media.map((media, index) => {
                       const IconComponent = getMediaIcon(media.type);
                       return (
                         <div 
                           key={index}
-                          className="flex items-center justify-between p-4 border rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                          className="border rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors overflow-hidden"
                         >
-                          <div className="flex items-center gap-3">
-                            <div className="p-2 rounded-lg bg-white">
-                              <IconComponent className="w-5 h-5 text-gray-600" />
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <MediaBadge type={media.type} />
-                                {media.caption && (
-                                  <span className="font-medium text-gray-900">
-                                    {media.caption}
-                                  </span>
-                                )}
+                          {/* Mobile-first layout */}
+                          <div className="p-4">
+                            {/* Header avec icône et type */}
+                            <div className="flex items-center gap-3 mb-3">
+                              <div className="p-2 rounded-lg bg-white shadow-sm">
+                                <IconComponent className="w-5 h-5 text-gray-600" />
                               </div>
+                              <div className="flex-1 min-w-0">
+                                <MediaBadge type={media.type} />
+                              </div>
+                            </div>
+
+                            {/* Contenu principal */}
+                            <div className="space-y-2">
+                              {media.caption && (
+                                <h4 className="font-medium text-gray-900 text-sm leading-tight">
+                                  {media.caption}
+                                </h4>
+                              )}
                               <p className="text-sm text-gray-600">
                                 {getMediaActionText(media.type)}
                               </p>
                             </div>
-                          </div>
 
-                          <Button
-                            onClick={() => handleMediaAction(media)}
-                            className="shrink-0"
-                          >
-                            <IconComponent className="w-4 h-4 mr-2" />
-                            {getMediaActionText(media.type)}
-                          </Button>
+                            {/* Bouton d'action - pleine largeur sur mobile */}
+                            <div className="mt-4">
+                              <Button
+                                onClick={() => handleMediaAction(media)}
+                                className="w-full sm:w-auto"
+                                size="sm"
+                              >
+                                <IconComponent className="w-4 h-4 mr-2" />
+                                {getMediaActionText(media.type)}
+                              </Button>
+                            </div>
+                          </div>
                         </div>
                       );
                     })}
