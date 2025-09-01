@@ -435,10 +435,10 @@ const CreateEveil = () => {
               </CardContent>
             </Card>
 
-            {/* Tags */}
+            {/* Langues */}
             <Card>
               <CardHeader>
-                <CardTitle>Tags</CardTitle>
+                <CardTitle>Langues</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -446,11 +446,11 @@ const CreateEveil = () => {
                     <Input
                       value={tagInput}
                       onChange={(e) => setTagInput(e.target.value)}
-                      placeholder="Ajouter un tag"
+                      placeholder="Ajouter une langue"
                       onKeyPress={(e) => e.key === 'Enter' && addTag()}
                     />
                     <Button onClick={addTag} variant="outline">
-                      Ajouter
+                      Ajouter une langue
                     </Button>
                   </div>
 

@@ -5,11 +5,10 @@ import Layout from '@/components/Layout';
 import CardEveil from '@/components/Eveil/CardEveil';
 import EveilSkeleton from '@/components/Eveil/EveilSkeleton';
 import TagFilter from '@/components/Eveil/TagFilter';
-import AgeRangeFilter from '@/components/ui/AgeRangeFilter';
 import { getEveilItemsBySection } from '@/integrations/supabase/eveil-helpers';
 import { EveilItem, EveilSection, EVEIL_SECTIONS, AgeRange } from '@/integrations/supabase/types-eveil';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2, Filter, Baby, Users, GraduationCap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const EveilSection = () => {
@@ -40,6 +39,14 @@ const EveilSection = () => {
       </Layout>
     );
   }
+
+  // Options de tranches d'âge avec icônes mignonnes (même design que Courses)
+  const ageRangeOptions: { value: AgeRange; label: string; icon: React.ReactNode; emoji: string }[] = [
+    { value: '12-18_months', label: '12-18 mois', icon: <Baby className="w-4 h-4" />, emoji: '👶' },
+    { value: '2_years', label: '2 ans', icon: <Baby className="w-4 h-4" />, emoji: '🧸' },
+    { value: '3_years', label: '3 ans', icon: <GraduationCap className="w-4 h-4" />, emoji: '🎨' },
+    { value: 'up_to_12_years', label: 'Jusqu\'à 12 ans', icon: <Users className="w-4 h-4" />, emoji: '🌟' }
+  ];
 
   // Extraire tous les tags disponibles
   const availableTags = React.useMemo(() => {
@@ -81,6 +88,21 @@ const EveilSection = () => {
 
     setFilteredItems(filtered);
   }, [items, selectedTags, selectedAgeRanges]);
+
+  const handleAgeRangeToggle = (ageRange: AgeRange) => {
+    setSelectedAgeRanges(prev => 
+      prev.includes(ageRange)
+        ? prev.filter(ar => ar !== ageRange)
+        : [...prev, ageRange]
+    );
+  };
+
+  const clearAllFilters = () => {
+    setSelectedTags([]);
+    setSelectedAgeRanges([]);
+  };
+
+  const hasActiveFilters = selectedTags.length > 0 || selectedAgeRanges.length > 0;
 
   useEffect(() => {
     const loadItems = async () => {
@@ -170,24 +192,88 @@ const EveilSection = () => {
             ) : (
               <>
                 {/* Filtres */}
-                <div className="mb-8 space-y-6">
-                  {/* Filtre par tranches d'âge */}
+                <div className="bg-white rounded-xl p-6 mb-8 shadow-lg border border-gray-200">
+                  {/* Bouton effacer les filtres */}
+                  {hasActiveFilters && (
+                    <div className="flex justify-end mb-4">
+                      <Button
+                        onClick={clearAllFilters}
+                        variant="outline"
+                        size="sm"
+                        className="text-gray-600 border-gray-300 hover:bg-gray-50"
+                      >
+                        Effacer tous les filtres
+                      </Button>
+                    </div>
+                  )}
+
+                  {/* Filtre par tranches d'âge - Même design que Courses */}
                   {availableAgeRanges.length > 0 && (
-                    <AgeRangeFilter
-                      selectedAgeRanges={selectedAgeRanges}
-                      onAgeRangesChange={setSelectedAgeRanges}
-                      title={`Filtrer par âge - ${sectionInfo.title}`}
-                    />
+                    <div className="mb-6">
+                      <div className="flex items-center gap-2 mb-3">
+                        <Filter className="w-4 h-4 text-emerald-500" />
+                        <span className="text-sm font-medium text-gray-700">Filtrer par âge</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {ageRangeOptions.map((option) => {
+                          const isSelected = selectedAgeRanges.includes(option.value);
+                          return (
+                            <button
+                              key={option.value}
+                              onClick={() => handleAgeRangeToggle(option.value)}
+                              className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                                isSelected
+                                  ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md scale-105'
+                                  : 'bg-gray-100 text-gray-600 hover:bg-emerald-100 hover:text-emerald-700 hover:scale-105'
+                              }`}
+                            >
+                              <span className="text-base">{option.emoji}</span>
+                              <span>{option.label}</span>
+                              {isSelected && (
+                                <span className="ml-1 text-emerald-100">✓</span>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
                   )}
 
                   {/* Filtre par tags */}
                   {availableTags.length > 0 && (
-                    <TagFilter
-                      availableTags={availableTags}
-                      selectedTags={selectedTags}
-                      onTagsChange={setSelectedTags}
-                      title={`Filtrer par tags - ${sectionInfo.title}`}
-                    />
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
+                        <Filter className="w-4 h-4 text-emerald-500" />
+                        <span className="text-sm font-medium text-gray-700">Choisir une langue</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {availableTags.map((tag) => {
+                          const isSelected = selectedTags.includes(tag);
+                          return (
+                            <button
+                              key={tag}
+                              onClick={() => {
+                                if (isSelected) {
+                                  setSelectedTags(prev => prev.filter(t => t !== tag));
+                                } else {
+                                  setSelectedTags(prev => [...prev, tag]);
+                                }
+                              }}
+                              className={`px-3 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                                isSelected
+                                  ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-md scale-105'
+                                  : 'bg-gray-100 text-gray-600 hover:bg-emerald-100 hover:text-emerald-700 hover:scale-105'
+                              }`}
+                            >
+                              {tag}
+                              {isSelected && (
+                                <span className="ml-1 text-emerald-100">✓</span>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
                   )}
                 </div>
 
@@ -195,7 +281,7 @@ const EveilSection = () => {
                 <div className="mb-8 text-center">
                   <p className="text-gray-600">
                     {filteredItems.length} activité{filteredItems.length > 1 ? 's' : ''} disponible{filteredItems.length > 1 ? 's' : ''}
-                    {(selectedTags.length > 0 || selectedAgeRanges.length > 0) && (
+                    {hasActiveFilters && (
                       <span className="text-emerald-600 font-medium">
                         {' '}avec les filtres sélectionnés
                       </span>
@@ -214,7 +300,7 @@ const EveilSection = () => {
                 </div>
 
                 {/* Message si aucun résultat */}
-                {filteredItems.length === 0 && (selectedTags.length > 0 || selectedAgeRanges.length > 0) && (
+                {filteredItems.length === 0 && hasActiveFilters && (
                   <div className="text-center py-12">
                     <div className="text-4xl mb-4">🔍</div>
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">
@@ -224,10 +310,7 @@ const EveilSection = () => {
                       Aucune activité ne correspond aux filtres sélectionnés.
                     </p>
                     <Button 
-                      onClick={() => {
-                        setSelectedTags([]);
-                        setSelectedAgeRanges([]);
-                      }}
+                      onClick={clearAllFilters}
                       variant="outline"
                       className="text-emerald-600 border-emerald-200 hover:bg-emerald-50"
                     >

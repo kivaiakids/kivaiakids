@@ -14,7 +14,7 @@ const TagFilter: React.FC<TagFilterProps> = ({
   availableTags,
   selectedTags,
   onTagsChange,
-  title = "Filtrer par tags"
+  title = "Choisir une langue"
 }) => {
   const [localSelectedTags, setLocalSelectedTags] = useState<string[]>(selectedTags);
 
