@@ -5,6 +5,7 @@ import { LogOut, User, BookOpen, Crown, Menu, X, Home, GraduationCap, LogIn } fr
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
+import ContactModal from '@/components/ui/contact-modal';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -16,6 +17,7 @@ const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -307,7 +309,12 @@ const Layout = ({ children }: LayoutProps) => {
               “Kivaia Kids, chaque mot devient une aventure, chaque son une porte ouverte sur le monde”
             </p>
             <div className="flex justify-center md:justify-end space-x-6">
-              <a href="mailto:contact@kivaiakids.fr" className="text-sm text-blue-600 hover:text-blue-800 transition-colors">Contact</a>
+              <button
+                onClick={() => setContactModalOpen(true)}
+                className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
+              >
+                Contact
+              </button>
               <button
                 onClick={() => navigate('/terms')}
                 className="text-sm text-blue-600 hover:text-blue-800 transition-colors"
@@ -321,6 +328,12 @@ const Layout = ({ children }: LayoutProps) => {
           </div>
         </div>
       </footer>
+
+      {/* Contact Modal */}
+      <ContactModal 
+        isOpen={contactModalOpen} 
+        onClose={() => setContactModalOpen(false)} 
+      />
     </div>
   );
 };

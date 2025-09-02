@@ -86,7 +86,7 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
             <Card className="text-center group hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 hover:scale-105 bg-white/95 backdrop-blur-sm border-0 shadow-xl rounded-3xl overflow-hidden">
               <div className="bg-gradient-to-br from-purple-400 to-pink-500 p-2">
                 <div className="bg-gradient-to-br from-purple-500 to-pink-600 p-6 rounded-2xl w-24 h-24 mx-auto mb-6 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
@@ -95,13 +95,10 @@ const Index = () => {
               </div>
               <CardHeader className="pb-4">
                 <CardTitle className="text-3xl font-black text-gray-900 group-hover:text-purple-600 transition-colors duration-300">
-                  Contenu Éducatif
+                  Apprentissage par le jeu et les sens
                 </CardTitle>
               </CardHeader>
               <CardContent className="px-8 pb-8">
-                <p className="text-gray-600 text-lg leading-relaxed font-medium">
-                  Des cours conçus par des experts pédagogiques, adaptés à chaque tranche d'âge
-                </p>
               </CardContent>
             </Card>
 
@@ -113,13 +110,10 @@ const Index = () => {
               </div>
               <CardHeader className="pb-4">
                 <CardTitle className="text-3xl font-black text-gray-900 group-hover:text-orange-600 transition-colors duration-300">
-                  Méthode Simple
+                  Respect des cultures
                 </CardTitle>
               </CardHeader>
               <CardContent className="px-8 pb-8">
-                <p className="text-gray-600 text-lg leading-relaxed font-medium">
-                  Une approche claire et directe pour progresser efficacement dans ton apprentissage
-                </p>
               </CardContent>
             </Card>
 
@@ -131,15 +125,23 @@ const Index = () => {
               </div>
               <CardHeader className="pb-4">
                 <CardTitle className="text-3xl font-black text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
-                  Environnement Sûr
+                  Développement de la confiance et de la curiosité
                 </CardTitle>
               </CardHeader>
               <CardContent className="px-8 pb-8">
-                <p className="text-gray-600 text-lg leading-relaxed font-medium">
-                  Un espace sécurisé et contrôlé, spécialement conçu pour la sécurité des enfants
-                </p>
               </CardContent>
             </Card>
+          </div>
+
+          {/* CTA Section */}
+          <div className="text-center">
+            <Button
+              onClick={() => navigate('/eveil-aux-langues')}
+              size="lg"
+              className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 text-white font-black px-12 py-6 text-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 rounded-2xl"
+            >
+              Découvrir l'univers de Kivaia Kids
+            </Button>
           </div>
         </div>
       </section>

@@ -27,7 +27,7 @@ const Terms = () => {
                 Conditions Générales d'Utilisation
               </h1>
               <p className="text-blue-600 text-lg">
-                KivaïaKids - Plateforme d'apprentissage des langues
+                KivaïaKids - Plateforme d'éveil aux langues et apprentissage des langues
               </p>
             </div>
           </div>
@@ -47,7 +47,7 @@ const Terms = () => {
               <h2 className="text-2xl font-semibold text-blue-800 mb-4">2. Éditeur du site</h2>
               <p className="text-gray-700 leading-relaxed">
                 Le site KivaïaKids est édité par une étudiante passionnée de langues.
-                Contact : contact@kivaiakids.com
+                Contact : Contact@kivaiakids.fr
               </p>
             </section>
 
@@ -107,7 +107,7 @@ const Terms = () => {
                 Les données personnelles collectées (nom, e-mail, informations de paiement) sont traitées conformément à la réglementation en vigueur (RGPD).
               </p>
               <p className="text-gray-700 leading-relaxed">
-                L'utilisateur dispose d'un droit d'accès, de rectification et de suppression de ses données en contactant contact@kivaiakids.com.
+                L'utilisateur dispose d'un droit d'accès, de rectification et de suppression de ses données en contactant Contact@kivaiakids.fr.
               </p>
             </section>
 
