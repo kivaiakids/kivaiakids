@@ -97,23 +97,15 @@ const Pricing = () => {
                 </CardContent>
               </Card>
 
-              {/* Premium - Mensuel (Mise en avant) */}
-              <Card className="relative bg-gradient-to-br from-emerald-50 to-teal-50 shadow-xl border-2 border-emerald-300 hover:shadow-2xl transition-all duration-300 w-full order-first md:order-none">
-                {/* Badge Populaire */}
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                  <Badge className="bg-emerald-600 text-white font-bold px-4 py-1.5 shadow-lg">
-                    <Star className="h-3 w-3 mr-1" />
-                    Populaire
-                  </Badge>
-                </div>
-                
-                <CardContent className="p-6 sm:p-8 pt-8">
+              {/* Premium - Mensuel */}
+              <Card className="relative bg-white shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 w-full">
+                <CardContent className="p-6 sm:p-8">
                   <div className="text-center mb-6">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-emerald-100 rounded-full mb-4">
-                      <Crown className="h-6 w-6 text-emerald-600" />
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full mb-4">
+                      <Crown className="h-6 w-6 text-gray-600" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">Kivaia Premium</h3>
-                    <div className="text-3xl font-bold text-emerald-600 mb-1">9,90 €</div>
+                    <div className="text-3xl font-bold text-gray-900 mb-1">9,90 €</div>
                     <div className="text-gray-600">/ mois</div>
                   </div>
                   
@@ -134,22 +126,30 @@ const Pricing = () => {
                   
                   <Button
                     onClick={() => handleCTAClick('premium', 'https://buy.stripe.com/cNi7sL3D97Px25kfDA4Rq00')}
-                    className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-colors"
+                    className="w-full h-11 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold transition-colors"
                   >
                     Démarrer Premium
                   </Button>
                 </CardContent>
               </Card>
 
-              {/* Annuel */}
-              <Card className="relative bg-white shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300 w-full">
-                <CardContent className="p-6 sm:p-8">
+              {/* Annuel - Mise en avant */}
+              <Card className="relative bg-gradient-to-br from-emerald-50 to-teal-50 shadow-xl border-2 border-emerald-300 hover:shadow-2xl transition-all duration-300 w-full">
+                {/* Badge Populaire */}
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                  <Badge className="bg-emerald-600 text-white font-bold px-4 py-1.5 shadow-lg">
+                    <Star className="h-3 w-3 mr-1" />
+                    Populaire
+                  </Badge>
+                </div>
+                
+                <CardContent className="p-6 sm:p-8 pt-8">
                   <div className="text-center mb-6">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-4">
-                      <Zap className="h-6 w-6 text-blue-600" />
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-emerald-100 rounded-full mb-4">
+                      <Zap className="h-6 w-6 text-emerald-600" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-2">Kivaia Annuel</h3>
-                    <div className="text-3xl font-bold text-gray-900 mb-1">99 €</div>
+                    <div className="text-3xl font-bold text-emerald-600 mb-1">99 €</div>
                     <div className="text-gray-600">/ an</div>
                     <div className="mt-2">
                       <Badge className="bg-yellow-100 text-yellow-800 text-xs">
@@ -175,7 +175,7 @@ const Pricing = () => {
                   
                   <Button
                     onClick={() => handleCTAClick('annual', 'https://buy.stripe.com/14A00jgpV1r9bFUezw4Rq01')}
-                    className="w-full h-11 bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors"
+                    className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-colors"
                   >
                     Choisir l'offre annuelle
                   </Button>

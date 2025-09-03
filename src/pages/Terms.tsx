@@ -46,8 +46,8 @@ const Terms = () => {
             <section>
               <h2 className="text-2xl font-semibold text-blue-800 mb-4">2. Éditeur du site</h2>
               <p className="text-gray-700 leading-relaxed">
-                Le site KivaïaKids est édité par une étudiante passionnée de langues.
-                Contact : Contact@kivaiakids.fr
+                Kivaia Kids est née d'une idée simple mais ambitieuse : offrir aux enfants une passerelle vers le monde à travers les langues, la culture et le jeu.
+                Ce projet s'est construit peu à peu grâce à des collaborations avec des pédagogues, des créatifs, des experts en langage, et des parents engagés.
               </p>
             </section>
 
