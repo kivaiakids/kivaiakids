@@ -134,11 +134,11 @@ const Index = () => {
           </div>
 
           {/* CTA Section */}
-          <div className="text-center">
+          <div className="text-center px-4">
             <Button
               onClick={() => navigate('/eveil-aux-langues')}
               size="lg"
-              className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 text-white font-black px-12 py-6 text-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 rounded-2xl"
+              className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 hover:from-purple-600 hover:via-pink-600 hover:to-orange-600 text-white font-black px-4 sm:px-6 md:px-8 lg:px-12 py-3 sm:py-4 md:py-5 lg:py-6 text-base sm:text-lg md:text-xl lg:text-2xl shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 rounded-2xl w-full sm:w-auto max-w-sm sm:max-w-none mx-auto"
             >
               Découvrir l'univers de Kivaia Kids
             </Button>

@@ -1,14 +1,43 @@
+# Robots.txt pour Kivaia Kids - Optimisé pour le SEO
+# https://kivaiakids.com
+
+# Sitemap principal
+Sitemap: https://kivaiakids.com/sitemap.xml
+
+# Règles pour Googlebot
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
+# Règles pour Bingbot
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
 
+# Règles pour les réseaux sociaux
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
+# Règles générales pour tous les autres bots
 User-agent: *
 Allow: /
+Crawl-delay: 2
+
+# Pages à ne pas indexer (optionnel - décommentez si nécessaire)
+# Disallow: /admin/
+# Disallow: /api/
+# Disallow: /_next/
+# Disallow: /static/
+
+# Fichiers à ne pas indexer
+Disallow: /*.json$
+Disallow: /*.xml$
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
