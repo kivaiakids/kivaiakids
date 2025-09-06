@@ -6,7 +6,7 @@
 
   <!-- Page d'accueil - Priorité maximale -->
   <url>
-    <loc>https://kivaiakids.com/</loc>
+    <loc>https://kivaiakids.fr/</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -14,28 +14,28 @@
 
   <!-- Pages principales - Haute priorité -->
   <url>
-    <loc>https://kivaiakids.com/about</loc>
+    <loc>https://kivaiakids.fr/about</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://kivaiakids.com/pricing</loc>
+    <loc>https://kivaiakids.fr/pricing</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://kivaiakids.com/eveil-aux-langues</loc>
+    <loc>https://kivaiakids.fr/eveil-aux-langues</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://kivaiakids.com/courses</loc>
+    <loc>https://kivaiakids.fr/courses</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -43,21 +43,21 @@
 
   <!-- Pages d'authentification -->
   <url>
-    <loc>https://kivaiakids.com/auth</loc>
+    <loc>https://kivaiakids.fr/auth</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://kivaiakids.com/forgot-password</loc>
+    <loc>https://kivaiakids.fr/forgot-password</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://kivaiakids.com/reset-password</loc>
+    <loc>https://kivaiakids.fr/reset-password</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
@@ -65,21 +65,21 @@
 
   <!-- Pages utilisateur -->
   <url>
-    <loc>https://kivaiakids.com/profile</loc>
+    <loc>https://kivaiakids.fr/profile</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://kivaiakids.com/premium</loc>
+    <loc>https://kivaiakids.fr/premium</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://kivaiakids.com/purchase-success</loc>
+    <loc>https://kivaiakids.fr/purchase-success</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
@@ -87,7 +87,7 @@
 
   <!-- Pages légales -->
   <url>
-    <loc>https://kivaiakids.com/terms</loc>
+    <loc>https://kivaiakids.fr/terms</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
@@ -95,42 +95,42 @@
 
   <!-- Pages admin (faible priorité, mais indexées pour la transparence) -->
   <url>
-    <loc>https://kivaiakids.com/admin</loc>
+    <loc>https://kivaiakids.fr/admin</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
   </url>
 
   <url>
-    <loc>https://kivaiakids.com/admin/create-course</loc>
+    <loc>https://kivaiakids.fr/admin/create-course</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
   </url>
 
   <url>
-    <loc>https://kivaiakids.com/admin/manage-users</loc>
+    <loc>https://kivaiakids.fr/admin/manage-users</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
   </url>
 
   <url>
-    <loc>https://kivaiakids.com/admin/manage-courses</loc>
+    <loc>https://kivaiakids.fr/admin/manage-courses</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
   </url>
 
   <url>
-    <loc>https://kivaiakids.com/admin/eveil</loc>
+    <loc>https://kivaiakids.fr/admin/eveil</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>
   </url>
 
   <url>
-    <loc>https://kivaiakids.com/admin/eveil/new</loc>
+    <loc>https://kivaiakids.fr/admin/eveil/new</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.2</priority>

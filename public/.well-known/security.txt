@@ -1,4 +1,4 @@
-Contact: mailto:contact@kivaiakids.com
+Contact: mailto:contact@kivaiakids.fr
 Expires: 2026-01-27T00:00:00.000Z
 Preferred-Languages: fr, en
-Canonical: https://kivaiakids.com
+Canonical: https://kivaiakids.fr

@@ -1,8 +1,8 @@
 # Robots.txt pour Kivaia Kids - Optimisé pour le SEO
-# https://kivaiakids.com
+# https://kivaiakids.fr
 
 # Sitemap principal
-Sitemap: https://kivaiakids.com/sitemap.xml
+Sitemap: https://kivaiakids.fr/sitemap.xml
 
 # Règles pour Googlebot
 User-agent: Googlebot
