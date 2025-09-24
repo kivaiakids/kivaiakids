@@ -63,17 +63,14 @@ const Hero: React.FC<HeroProps> = ({ title, subtitle, ctaLabel }) => {
           </h1>
           
           {/* Slogan highlighted */}
-          <div className="max-w-3xl mx-auto">
-            <p className="text-xl md:text-2xl font-medium text-emerald-700 italic mb-6">
-              « Le plaisir de découvrir, le pouvoir de parler »
+          <div className="max-w-4xl mx-auto">
+            <p className="text-xl md:text-2xl font-medium text-emerald-700 mb-6">
+              Kivaia Kids – Éveil aux langues et apprentissage des langues pour enfants
             </p>
             
             <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-emerald-200">
-              <p className="text-lg md:text-xl text-gray-700 leading-relaxed mb-4">
-                Kivaia Kids ouvre la porte des langues et des cultures aux enfants, accompagnés avec confiance par les parents et les professionnels.
-              </p>
-              <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-medium text-emerald-800">
-                Apprendre devient un voyage : on joue, on chante, on rit… et on parle autrement.
+              <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
+                Kivaia Kids est une plateforme éducative qui initie les enfants à l'éveil aux langues et à l'apprentissage des langues. Jeux, cultures et activités ludiques pour favoriser le plurilinguisme et l'ouverture au monde dès l'enfance.
               </p>
             </div>
           </div>
